@@ -9,4 +9,13 @@
         android:text="Admin Dashboard"
         android:textSize="24sp"
         android:textStyle="bold" />
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="24dp"
+        android:text="Logout"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:background="@drawable/rounded_button" />
 </FrameLayout>

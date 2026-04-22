@@ -1,9 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.StaySwift" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <style name="Theme.StaySwift" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/primaryBlue</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorPrimaryContainer">@color/primaryBlueDark</item>
+        <item name="android:statusBarColor">@color/primaryBlueDark</item>
+        <item name="android:navigationBarColor">@color/backgroundWhite</item>
+        <item name="android:windowBackground">@color/backgroundWhite</item>
+        <item name="android:textColorPrimary">@color/textPrimary</item>
+        <item name="android:textColorSecondary">@color/textSecondary</item>
     </style>
 
-    <style name="Theme.StaySwift" parent="Base.Theme.StaySwift" />
 </resources>

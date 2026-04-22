@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -42,6 +43,11 @@ public class SignupActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
 
         btnSignup.setOnClickListener(v -> signupUser());
+        TextView tvLogin = findViewById(R.id.tvLogin);
+        tvLogin.setOnClickListener(v -> {
+            finish();
+            // OR startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+        });
     }
 
     private void signupUser() {
