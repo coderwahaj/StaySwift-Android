@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "687142155558",
+    "project_id": "stayswift-2e5d3",
+    "storage_bucket": "stayswift-2e5d3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:687142155558:android:e6a9d637f4d9dbbacbbde7",
+        "android_client_info": {
+          "package_name": "com.l227879.stayswift"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFoF4QREjNszJAklY4R4psX3p2v3xCgvI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
