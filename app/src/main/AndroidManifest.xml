@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- for current location -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,11 +17,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StaySwift"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAhDt81DDJw0yzG_CJqH22CZcc2uveX1Qk" />
 
         <activity android:name=".AdminDashboardActivity" />
         <activity android:name=".GuestHomeActivity" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".LoginActivity" />
+        <activity android:name=".admin.CreateHotelBasicInfoActivity" />
+        <activity android:name=".admin.PickHotelLocationActivity" />
+        <activity android:name=".admin.SelectHotelAmenitiesActivity" />
 
         <activity
             android:name=".SplashActivity"

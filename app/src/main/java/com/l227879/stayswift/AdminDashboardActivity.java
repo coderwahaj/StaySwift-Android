@@ -29,20 +29,20 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private TextView tvAdminEmail, tvTotalHotels, tvActiveRooms, tvTotalBookings, tvRevenue;
     private ProgressBar progressBar;
     private Button btnManageHotels, btnManageRooms, btnViewBookings, btnLogout;
-
+    private com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton fabAddHotel;
     private DatabaseReference rootRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_dashboard);
-        View header = findViewById(R.id.headerContainer);
+        View root = findViewById(R.id.rootContainer);
         int statusBarHeight = getStatusBarHeight();
-        header.setPadding(
-                header.getPaddingLeft(),
-                header.getPaddingTop() + statusBarHeight,
-                header.getPaddingRight(),
-                header.getPaddingBottom()
+        root.setPadding(
+                root.getPaddingLeft(),
+                statusBarHeight,
+                root.getPaddingRight(),
+                root.getPaddingBottom()
         );
         bindViews();
         setupAuthGuard();
@@ -71,6 +71,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         btnManageRooms = findViewById(R.id.btnManageRooms);
         btnViewBookings = findViewById(R.id.btnViewBookings);
         btnLogout = findViewById(R.id.btnLogout);
+        fabAddHotel = findViewById(R.id.fabAddHotel);
     }
 
     private void setupAuthGuard() {
@@ -103,6 +104,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         });
+        fabAddHotel.setOnClickListener(v ->
+                startActivity(new Intent(this, com.l227879.stayswift.admin.CreateHotelBasicInfoActivity.class)));
     }
 
     private void loadDashboardStats() {
