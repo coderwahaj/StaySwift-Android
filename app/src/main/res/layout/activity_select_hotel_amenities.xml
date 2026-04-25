@@ -1,12 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootAmenities"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:fillViewport="true"
+    android:background="@color/backgroundWhite"
+    android:clipToPadding="false">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Amenities screen (next step)" />
-</LinearLayout>
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create Hotel"
+            android:textColor="@color/textPrimary"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Select amenities"
+            android:textColor="@color/textSecondary"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:orientation="vertical"
+            android:background="@drawable/stats_card_bg"
+            android:padding="14dp">
+
+            <CheckBox
+                android:id="@+id/cbWifi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Free Wi-Fi" />
+
+            <CheckBox
+                android:id="@+id/cbParking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Parking" />
+
+            <CheckBox
+                android:id="@+id/cbBreakfast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Breakfast Included" />
+
+            <CheckBox
+                android:id="@+id/cbPool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Swimming Pool" />
+
+            <CheckBox
+                android:id="@+id/cbGym"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Gym / Fitness" />
+
+            <CheckBox
+                android:id="@+id/cbAc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Air Conditioning" />
+
+            <CheckBox
+                android:id="@+id/cbRestaurant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Restaurant" />
+
+            <CheckBox
+                android:id="@+id/cbRoomService"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Room Service" />
+
+            <CheckBox
+                android:id="@+id/cbAirportShuttle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Airport Shuttle" />
+
+            <CheckBox
+                android:id="@+id/cbFamilyRooms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Family Rooms" />
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:hint="Other amenities (comma separated)"
+            android:textColorHint="@color/textSecondary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etOtherAmenities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:minLines="2"
+                android:maxLines="4" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btnBackAmenities"
+                android:layout_width="0dp"
+                android:layout_height="54dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/outline_button_bg"
+                android:text="Back"
+                android:textAllCaps="false"
+                android:textColor="@color/primaryBlue"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnNextAmenities"
+                android:layout_width="0dp"
+                android:layout_height="54dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/rounded_button"
+                android:text="Next: Photos"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

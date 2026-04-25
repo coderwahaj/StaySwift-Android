@@ -232,7 +232,9 @@ public class PickHotelLocationActivity extends AppCompatActivity implements OnMa
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-
+        mMap.setOnMapLoadedCallback(() -> {
+            // Map loaded successfully
+        });
         // Default start: Lahore
         LatLng defaultStart = new LatLng(31.5204, 74.3587);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultStart, 12f));

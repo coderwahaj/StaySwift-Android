@@ -28,7 +28,8 @@
         <activity android:name=".admin.CreateHotelBasicInfoActivity" />
         <activity android:name=".admin.PickHotelLocationActivity" />
         <activity android:name=".admin.SelectHotelAmenitiesActivity" />
-
+        <activity android:name=".admin.UploadHotelPhotosActivity" />
+        <activity android:name=".admin.ReviewHotelActivity" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">
