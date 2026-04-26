@@ -5,15 +5,14 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -23,10 +22,12 @@ import com.google.firebase.storage.StorageReference;
 import com.l227879.stayswift.R;
 import com.l227879.stayswift.models.Hotel;
 
+import java.util.ArrayList;
+
 public class HotelDetailsActivity extends AppCompatActivity {
 
-    private ImageView ivMain;
-    private TextView tvName, tvAddress, tvDesc, tvPhone, tvEmail, tvAmenities;
+    private ViewPager2 vpHotelImages;
+    private TextView tvImageIndex, tvName, tvAddress, tvDesc, tvPhone, tvEmail, tvAmenities;
     private Button btnEdit, btnDelete;
     private View progress;
 
@@ -38,7 +39,8 @@ public class HotelDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotel_details);
 
-        ivMain = findViewById(R.id.ivHotelMain);
+        vpHotelImages = findViewById(R.id.vpHotelImages);
+        tvImageIndex = findViewById(R.id.tvImageIndex);
         tvName = findViewById(R.id.tvHotelName);
         tvAddress = findViewById(R.id.tvHotelAddress);
         tvDesc = findViewById(R.id.tvHotelDesc);
@@ -50,18 +52,13 @@ public class HotelDetailsActivity extends AppCompatActivity {
         progress = findViewById(R.id.progressHotelDetails);
 
         hotelId = getIntent().getStringExtra("hotelId");
-        if (hotelId == null || hotelId.trim().isEmpty()) {
+        if (TextUtils.isEmpty(hotelId)) {
             Toast.makeText(this, "Invalid hotel", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
-        btnEdit.setOnClickListener(v -> {
-            Intent i = new Intent(this, EditHotelActivity.class);
-            i.putExtra("hotelId", hotelId);
-            startActivity(i);
-        });
-
+        btnEdit.setOnClickListener(v -> openEditWizard());
         btnDelete.setOnClickListener(v -> showDeleteConfirmation());
 
         loadHotel();
@@ -73,13 +70,33 @@ public class HotelDetailsActivity extends AppCompatActivity {
         loadHotel();
     }
 
+    private void openEditWizard() {
+        if (hotel == null) return;
+        Intent i = new Intent(this, CreateHotelBasicInfoActivity.class);
+        i.putExtra("isEditMode", true);
+        i.putExtra("hotelId", hotel.hotelId);
+
+        i.putExtra("hotelName", hotel.name);
+        i.putExtra("hotelDescription", hotel.description);
+        i.putExtra("hotelPhone", hotel.phone);
+        i.putExtra("hotelEmail", hotel.email);
+        i.putExtra("hotelAddress", hotel.address);
+        i.putExtra("hotelLat", hotel.lat);
+        i.putExtra("hotelLng", hotel.lng);
+        i.putStringArrayListExtra("hotelAmenities", hotel.amenities);
+        i.putExtra("hotelOtherAmenities", hotel.otherAmenities);
+
+        if (hotel.photoUrls != null) {
+            i.putStringArrayListExtra("hotelPhotoUrls", hotel.photoUrls); // existing remote urls
+        }
+        startActivity(i);
+    }
+
     private void loadHotel() {
         progress.setVisibility(View.VISIBLE);
-
         FirebaseDatabase.getInstance().getReference("hotels").child(hotelId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    @Override public void onDataChange(@NonNull DataSnapshot snapshot) {
                         progress.setVisibility(View.GONE);
                         hotel = snapshot.getValue(Hotel.class);
                         if (hotel == null) {
@@ -87,11 +104,11 @@ public class HotelDetailsActivity extends AppCompatActivity {
                             finish();
                             return;
                         }
+                        if (TextUtils.isEmpty(hotel.hotelId)) hotel.hotelId = hotelId;
                         bindHotel(hotel);
                     }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                    @Override public void onCancelled(@NonNull DatabaseError error) {
                         progress.setVisibility(View.GONE);
                         Toast.makeText(HotelDetailsActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -105,21 +122,24 @@ public class HotelDetailsActivity extends AppCompatActivity {
         tvPhone.setText("Phone: " + value(h.phone));
         tvEmail.setText("Email: " + value(h.email));
 
-        String am = (h.amenities == null || h.amenities.isEmpty())
-                ? "-"
-                : TextUtils.join(", ", h.amenities);
-
-        if (!TextUtils.isEmpty(h.otherAmenities)) {
-            am += "\nOther: " + h.otherAmenities;
-        }
+        String am = (h.amenities == null || h.amenities.isEmpty()) ? "-" : TextUtils.join(", ", h.amenities);
+        if (!TextUtils.isEmpty(h.otherAmenities)) am += "\nOther: " + h.otherAmenities;
         tvAmenities.setText(am);
 
-        String first = (h.photoUrls != null && !h.photoUrls.isEmpty()) ? h.photoUrls.get(0) : null;
-        if (!TextUtils.isEmpty(first)) {
-            Glide.with(this).load(first).centerCrop().into(ivMain);
-        } else {
-            ivMain.setImageResource(R.drawable.ic_launcher_background);
+        ArrayList<String> urls = (h.photoUrls == null) ? new ArrayList<>() : h.photoUrls;
+        if (urls.isEmpty()) {
+            urls.add(""); // show placeholder page
         }
+
+        HotelImagesPagerAdapter pagerAdapter = new HotelImagesPagerAdapter(urls);
+        vpHotelImages.setAdapter(pagerAdapter);
+        tvImageIndex.setText("1/" + urls.size());
+
+        vpHotelImages.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override public void onPageSelected(int position) {
+                tvImageIndex.setText((position + 1) + "/" + urls.size());
+            }
+        });
     }
 
     private void showDeleteConfirmation() {
@@ -133,17 +153,14 @@ public class HotelDetailsActivity extends AppCompatActivity {
 
     private void deleteHotel() {
         progress.setVisibility(View.VISIBLE);
-
         FirebaseDatabase.getInstance().getReference("hotels")
                 .child(hotelId)
                 .removeValue()
-                .addOnSuccessListener(unused -> {
-                    deleteStorageFolder("hotel_photos/" + hotelId, () -> {
-                        progress.setVisibility(View.GONE);
-                        Toast.makeText(this, "Hotel deleted", Toast.LENGTH_SHORT).show();
-                        finish();
-                    });
-                })
+                .addOnSuccessListener(unused -> deleteStorageFolder("hotel_photos/" + hotelId, () -> {
+                    progress.setVisibility(View.GONE);
+                    Toast.makeText(this, "Hotel deleted", Toast.LENGTH_SHORT).show();
+                    finish();
+                }))
                 .addOnFailureListener(e -> {
                     progress.setVisibility(View.GONE);
                     Toast.makeText(this, "Delete failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -161,20 +178,12 @@ public class HotelDetailsActivity extends AppCompatActivity {
                     final int[] pending = {listResult.getItems().size()};
                     for (StorageReference f : listResult.getItems()) {
                         f.delete()
-                                .addOnSuccessListener(unused -> {
-                                    pending[0]--;
-                                    if (pending[0] == 0) onDone.run();
-                                })
-                                .addOnFailureListener(e -> {
-                                    pending[0]--;
-                                    if (pending[0] == 0) onDone.run();
-                                });
+                                .addOnSuccessListener(unused -> { pending[0]--; if (pending[0] == 0) onDone.run(); })
+                                .addOnFailureListener(e -> { pending[0]--; if (pending[0] == 0) onDone.run(); });
                     }
                 })
                 .addOnFailureListener(e -> onDone.run());
     }
 
-    private String value(String s) {
-        return (s == null || s.trim().isEmpty()) ? "-" : s.trim();
-    }
+    private String value(String s) { return (s == null || s.trim().isEmpty()) ? "-" : s.trim(); }
 }

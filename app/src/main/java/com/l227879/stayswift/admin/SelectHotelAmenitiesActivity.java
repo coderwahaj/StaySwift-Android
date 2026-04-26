@@ -21,9 +21,16 @@ public class SelectHotelAmenitiesActivity extends AppCompatActivity {
     private TextInputEditText etOtherAmenities;
     private Button btnBackAmenities, btnNextAmenities;
 
-    // incoming data from previous screens
     private String hotelName, hotelDescription, hotelPhone, hotelEmail, hotelAddress;
     private double hotelLat, hotelLng;
+
+    private boolean isEditMode = false;
+    private String hotelId = null;
+    private ArrayList<String> existingPhotoUrls = new ArrayList<>();
+
+    // for prefill
+    private ArrayList<String> incomingAmenities = new ArrayList<>();
+    private String incomingOtherAmenities = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,7 @@ public class SelectHotelAmenitiesActivity extends AppCompatActivity {
 
         bindViews();
         readIncomingExtras();
+        prefillAmenitiesIfAny();
         setupClicks();
     }
 
@@ -61,6 +69,37 @@ public class SelectHotelAmenitiesActivity extends AppCompatActivity {
         hotelAddress = i.getStringExtra("hotelAddress");
         hotelLat = i.getDoubleExtra("hotelLat", 0.0);
         hotelLng = i.getDoubleExtra("hotelLng", 0.0);
+
+        isEditMode = i.getBooleanExtra("isEditMode", false);
+        hotelId = i.getStringExtra("hotelId");
+
+        existingPhotoUrls = i.getStringArrayListExtra("hotelPhotoUrls");
+        if (existingPhotoUrls == null) existingPhotoUrls = new ArrayList<>();
+
+        incomingAmenities = i.getStringArrayListExtra("hotelAmenities");
+        if (incomingAmenities == null) incomingAmenities = new ArrayList<>();
+
+        incomingOtherAmenities = i.getStringExtra("hotelOtherAmenities");
+        if (incomingOtherAmenities == null) incomingOtherAmenities = "";
+    }
+
+    private void prefillAmenitiesIfAny() {
+        for (String a : incomingAmenities) {
+            if ("Free Wi-Fi".equalsIgnoreCase(a)) cbWifi.setChecked(true);
+            else if ("Parking".equalsIgnoreCase(a)) cbParking.setChecked(true);
+            else if ("Breakfast Included".equalsIgnoreCase(a)) cbBreakfast.setChecked(true);
+            else if ("Swimming Pool".equalsIgnoreCase(a)) cbPool.setChecked(true);
+            else if ("Gym / Fitness".equalsIgnoreCase(a)) cbGym.setChecked(true);
+            else if ("Air Conditioning".equalsIgnoreCase(a)) cbAc.setChecked(true);
+            else if ("Restaurant".equalsIgnoreCase(a)) cbRestaurant.setChecked(true);
+            else if ("Room Service".equalsIgnoreCase(a)) cbRoomService.setChecked(true);
+            else if ("Airport Shuttle".equalsIgnoreCase(a)) cbAirportShuttle.setChecked(true);
+            else if ("Family Rooms".equalsIgnoreCase(a)) cbFamilyRooms.setChecked(true);
+        }
+
+        if (!TextUtils.isEmpty(incomingOtherAmenities)) {
+            etOtherAmenities.setText(incomingOtherAmenities);
+        }
     }
 
     private void setupClicks() {
@@ -77,20 +116,22 @@ public class SelectHotelAmenitiesActivity extends AppCompatActivity {
 
             Intent next = new Intent(this, UploadHotelPhotosActivity.class);
 
-            // pass basic info
             next.putExtra("hotelName", hotelName);
             next.putExtra("hotelDescription", hotelDescription);
             next.putExtra("hotelPhone", hotelPhone);
             next.putExtra("hotelEmail", hotelEmail);
 
-            // pass location
             next.putExtra("hotelAddress", hotelAddress);
             next.putExtra("hotelLat", hotelLat);
             next.putExtra("hotelLng", hotelLng);
 
-            // pass amenities
             next.putStringArrayListExtra("hotelAmenities", amenities);
             next.putExtra("hotelOtherAmenities", other);
+
+            // forward edit-mode context
+            next.putExtra("isEditMode", isEditMode);
+            next.putExtra("hotelId", hotelId);
+            next.putStringArrayListExtra("hotelPhotoUrls", existingPhotoUrls);
 
             startActivity(next);
         });

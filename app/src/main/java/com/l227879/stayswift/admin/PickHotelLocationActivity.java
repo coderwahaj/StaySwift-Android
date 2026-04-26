@@ -38,6 +38,7 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.textfield.TextInputEditText;
 import com.l227879.stayswift.R;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -67,7 +68,11 @@ public class PickHotelLocationActivity extends AppCompatActivity implements OnMa
 
     private ActivityResultLauncher<String[]> locationPermissionLauncher;
     private ActivityResultLauncher<Intent> autocompleteLauncher;
-
+    private boolean isEditMode = false;
+    private String hotelId = null;
+    private ArrayList<String> existingPhotoUrls = new ArrayList<>();
+    private ArrayList<String> preselectedAmenities = new ArrayList<>();
+    private String preselectedOtherAmenities = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +101,18 @@ public class PickHotelLocationActivity extends AppCompatActivity implements OnMa
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
         if (mapFragment != null) mapFragment.getMapAsync(this);
+        if (isEditMode) {
+            double inLat = getIntent().getDoubleExtra("hotelLat", 0.0);
+            double inLng = getIntent().getDoubleExtra("hotelLng", 0.0);
+            String inAddress = getIntent().getStringExtra("hotelAddress");
+            if (inLat != 0.0 || inLng != 0.0) {
+                selectedLatLng = new LatLng(inLat, inLng);
+            }
+            if (!TextUtils.isEmpty(inAddress)) {
+                selectedAddressText = inAddress;
+                tvSelectedAddress.setText(inAddress);
+            }
+        }
     }
 
     private void setupActivityResultLaunchers() {
@@ -147,7 +164,14 @@ public class PickHotelLocationActivity extends AppCompatActivity implements OnMa
             i.putExtra("hotelLat", selectedLatLng.latitude);
             i.putExtra("hotelLng", selectedLatLng.longitude);
             i.putExtra("hotelAddress", selectedAddressText);
+            // forward edit-flow extras
+            i.putExtra("isEditMode", isEditMode);
+            i.putExtra("hotelId", hotelId);
+            i.putStringArrayListExtra("hotelPhotoUrls", existingPhotoUrls);
 
+            // forward amenities too (for prefill)
+            i.putStringArrayListExtra("hotelAmenities", preselectedAmenities);
+            i.putExtra("hotelOtherAmenities", preselectedOtherAmenities);
             startActivity(i);
         });
 
@@ -160,6 +184,7 @@ public class PickHotelLocationActivity extends AppCompatActivity implements OnMa
                         Manifest.permission.ACCESS_COARSE_LOCATION
                 });
             }
+
         });
     }
 
@@ -168,8 +193,7 @@ public class PickHotelLocationActivity extends AppCompatActivity implements OnMa
         etSearchPlace.setFocusable(false);
         etSearchPlace.setOnClickListener(v -> openAutocomplete());
 
-        // Also open when user taps the end icon area (if they tap the row)
-        // (We already provide a search icon visual; simplest is click on the field.)
+
     }
 
     private void openAutocomplete() {
@@ -227,6 +251,19 @@ public class PickHotelLocationActivity extends AppCompatActivity implements OnMa
         hotelDescription = intent.getStringExtra("hotelDescription");
         hotelPhone = intent.getStringExtra("hotelPhone");
         hotelEmail = intent.getStringExtra("hotelEmail");
+
+        // edit flow extras
+        isEditMode = intent.getBooleanExtra("isEditMode", false);
+        hotelId = intent.getStringExtra("hotelId");
+
+        existingPhotoUrls = intent.getStringArrayListExtra("hotelPhotoUrls");
+        if (existingPhotoUrls == null) existingPhotoUrls = new ArrayList<>();
+
+        preselectedAmenities = intent.getStringArrayListExtra("hotelAmenities");
+        if (preselectedAmenities == null) preselectedAmenities = new ArrayList<>();
+
+        preselectedOtherAmenities = intent.getStringExtra("hotelOtherAmenities");
+        if (preselectedOtherAmenities == null) preselectedOtherAmenities = "";
     }
 
     @Override
@@ -248,6 +285,10 @@ public class PickHotelLocationActivity extends AppCompatActivity implements OnMa
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
             }
         });
+        if (selectedLatLng != null) {
+            setSelectedLocation(selectedLatLng, selectedAddressText);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(selectedLatLng, 16f));
+        }
     }
 
     private void setSelectedLocation(LatLng latLng, String knownAddressOrNull) {

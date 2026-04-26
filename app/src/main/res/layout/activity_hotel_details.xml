@@ -17,12 +17,18 @@
             android:layout_gravity="center"
             android:visibility="gone"/>
 
-        <ImageView
-            android:id="@+id/ivHotelMain"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vpHotelImages"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background" />
+            android:layout_height="230dp" />
+
+        <TextView
+            android:id="@+id/tvImageIndex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="1/1"
+            android:textColor="@color/textSecondary"/>
 
         <TextView
             android:id="@+id/tvHotelName"

@@ -24,4 +24,22 @@
         android:contentDescription="Delete photo"
         app:tint="@android:color/white" />
 
+
+        <ImageView
+            android:id="@+id/ivSelectedPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_background" />
+
+        <ImageButton
+            android:id="@+id/btnRemovePhoto"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="6dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Remove photo"
+            android:src="@android:drawable/ic_menu_close_clear_cancel" />
+
 </FrameLayout>

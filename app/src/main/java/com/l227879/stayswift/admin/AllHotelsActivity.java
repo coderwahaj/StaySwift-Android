@@ -55,8 +55,21 @@ public class AllHotelsActivity extends AppCompatActivity {
 
             @Override
             public void onEditClick(Hotel hotel) {
-                Intent i = new Intent(AllHotelsActivity.this, EditHotelActivity.class);
+                Intent i = new Intent(AllHotelsActivity.this, CreateHotelBasicInfoActivity.class);
+                i.putExtra("isEditMode", true);
                 i.putExtra("hotelId", hotel.hotelId);
+
+                i.putExtra("hotelName", hotel.name);
+                i.putExtra("hotelDescription", hotel.description);
+                i.putExtra("hotelPhone", hotel.phone);
+                i.putExtra("hotelEmail", hotel.email);
+                i.putExtra("hotelAddress", hotel.address);
+                i.putExtra("hotelLat", hotel.lat);
+                i.putExtra("hotelLng", hotel.lng);
+                i.putStringArrayListExtra("hotelAmenities", hotel.amenities);
+                i.putExtra("hotelOtherAmenities", hotel.otherAmenities);
+                i.putStringArrayListExtra("hotelPhotoUrls", hotel.photoUrls);
+
                 startActivity(i);
             }
 
