@@ -30,6 +30,13 @@
         <activity android:name=".admin.SelectHotelAmenitiesActivity" />
         <activity android:name=".admin.UploadHotelPhotosActivity" />
         <activity android:name=".admin.ReviewHotelActivity" />
+        <activity android:name=".admin.AllHotelsActivity" />
+        <activity android:name=".admin.HotelDetailsActivity" />
+        <activity android:name=".admin.EditHotelActivity" />
+        <activity android:name=".admin.SelectHotelForRoomsActivity" />
+        <activity android:name=".admin.RoomCategoriesActivity" />
+        <activity android:name=".admin.AddEditRoomCategoryActivity" />
+        <activity android:name=".admin.ManageRoomsActivity" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">

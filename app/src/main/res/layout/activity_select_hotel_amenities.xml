@@ -130,7 +130,7 @@
                 android:background="@drawable/outline_button_bg"
                 android:text="Back"
                 android:textAllCaps="false"
-                android:textColor="@color/primaryBlue"
+                android:textColor="@color/backgroundWhite"
                 android:textStyle="bold" />
 
             <Button

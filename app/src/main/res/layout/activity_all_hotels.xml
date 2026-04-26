@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundWhite"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/tvTitleHotels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="All Hotels"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/textPrimary" />
+
+    <ProgressBar
+        android:id="@+id/progressBarHotels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTitleHotels"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvEmptyHotels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTitleHotels"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:text="No hotels found."
+        android:textColor="@color/textSecondary"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvHotels"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tvTitleHotels"
+        android:layout_marginTop="12dp" />
+
+</RelativeLayout>

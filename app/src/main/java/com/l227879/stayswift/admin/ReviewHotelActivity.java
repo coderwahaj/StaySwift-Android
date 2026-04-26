@@ -143,7 +143,6 @@ public class ReviewHotelActivity extends AppCompatActivity {
 
     private void uploadPhotosSequentially(int index, String hotelId, ArrayList<String> uploadedUrls, String ownerUid) {
         if (index >= hotelPhotoUris.size()) {
-            // All uploaded -> save DB record
             Hotel hotel = new Hotel(
                     hotelId,
                     ownerUid,
@@ -166,7 +165,6 @@ public class ReviewHotelActivity extends AppCompatActivity {
                     .addOnSuccessListener(unused -> {
                         setLoading(false);
                         Toast.makeText(this, "Hotel added successfully!", Toast.LENGTH_LONG).show();
-
                         Intent dash = new Intent(this, AdminDashboardActivity.class);
                         dash.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(dash);
@@ -176,32 +174,34 @@ public class ReviewHotelActivity extends AppCompatActivity {
                         setLoading(false);
                         Toast.makeText(this, "Failed to save hotel: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     });
-
             return;
         }
 
         Uri uri = hotelPhotoUris.get(index);
-        String fileName = UUID.randomUUID().toString() + ".jpg";
-        StorageReference ref = FirebaseStorage.getInstance().getReference("hotel_photos")
+        String fileName = System.currentTimeMillis() + "_" + index + ".jpg";
+
+        StorageReference ref = FirebaseStorage.getInstance()
+                .getReference()
+                .child("hotel_photos")
                 .child(hotelId)
                 .child(fileName);
 
         ref.putFile(uri)
-                .addOnSuccessListener(taskSnapshot ->
-                        ref.getDownloadUrl().addOnSuccessListener(downloadUri -> {
-                            uploadedUrls.add(downloadUri.toString());
-                            uploadPhotosSequentially(index + 1, hotelId, uploadedUrls, ownerUid);
-                        }).addOnFailureListener(e -> {
-                            setLoading(false);
-                            Toast.makeText(this, "Upload URL failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                        })
-                )
+                .continueWithTask(task -> {
+                    if (!task.isSuccessful()) {
+                        throw task.getException() != null ? task.getException() : new Exception("Upload failed");
+                    }
+                    return ref.getDownloadUrl();
+                })
+                .addOnSuccessListener(downloadUri -> {
+                    uploadedUrls.add(downloadUri.toString());
+                    uploadPhotosSequentially(index + 1, hotelId, uploadedUrls, ownerUid);
+                })
                 .addOnFailureListener(e -> {
                     setLoading(false);
                     Toast.makeText(this, "Photo upload failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 });
     }
-
     private void setLoading(boolean loading) {
         progressSaveHotel.setVisibility(loading ? View.VISIBLE : View.GONE);
         btnBackPreview.setEnabled(!loading);

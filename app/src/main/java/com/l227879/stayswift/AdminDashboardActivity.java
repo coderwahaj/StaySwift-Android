@@ -18,8 +18,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.l227879.stayswift.admin.ManageBookingsActivity;
-import com.l227879.stayswift.admin.ManageHotelsActivity;
 import com.l227879.stayswift.admin.ManageRoomsActivity;
 
 public class AdminDashboardActivity extends AppCompatActivity {
@@ -28,7 +26,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
     private TextView tvAdminEmail, tvTotalHotels, tvActiveRooms, tvTotalBookings, tvRevenue;
     private ProgressBar progressBar;
-    private Button btnManageHotels, btnManageRooms, btnViewBookings, btnLogout;
+    private Button btnManageHotels, btnManageRooms, btnLogout;
     private com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton fabAddHotel;
     private DatabaseReference rootRef;
 
@@ -36,6 +34,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_dashboard);
+
         View root = findViewById(R.id.rootContainer);
         int statusBarHeight = getStatusBarHeight();
         root.setPadding(
@@ -44,6 +43,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 root.getPaddingRight(),
                 root.getPaddingBottom()
         );
+
         bindViews();
         setupAuthGuard();
         setupClicks();
@@ -51,14 +51,20 @@ public class AdminDashboardActivity extends AppCompatActivity {
         rootRef = FirebaseDatabase.getInstance().getReference();
         loadDashboardStats();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadDashboardStats();   // refresh every time screen comes to foreground
+    }
+
     private int getStatusBarHeight() {
         int result = 0;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
+        if (resourceId > 0) result = getResources().getDimensionPixelSize(resourceId);
         return result;
     }
+
     private void bindViews() {
         tvAdminEmail = findViewById(R.id.tvAdminEmail);
         tvTotalHotels = findViewById(R.id.tvTotalHotels);
@@ -69,7 +75,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
         btnManageHotels = findViewById(R.id.btnManageHotels);
         btnManageRooms = findViewById(R.id.btnManageRooms);
-        btnViewBookings = findViewById(R.id.btnViewBookings);
         btnLogout = findViewById(R.id.btnLogout);
         fabAddHotel = findViewById(R.id.fabAddHotel);
     }
@@ -89,13 +94,10 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
     private void setupClicks() {
         btnManageHotels.setOnClickListener(v ->
-                startActivity(new Intent(this, ManageHotelsActivity.class)));
+                startActivity(new Intent(this, com.l227879.stayswift.admin.AllHotelsActivity.class)));
 
         btnManageRooms.setOnClickListener(v ->
                 startActivity(new Intent(this, ManageRoomsActivity.class)));
-
-        btnViewBookings.setOnClickListener(v ->
-                startActivity(new Intent(this, ManageBookingsActivity.class)));
 
         btnLogout.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
@@ -104,13 +106,14 @@ public class AdminDashboardActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         });
+
         fabAddHotel.setOnClickListener(v ->
                 startActivity(new Intent(this, com.l227879.stayswift.admin.CreateHotelBasicInfoActivity.class)));
     }
 
     private void loadDashboardStats() {
         progressBar.setVisibility(View.VISIBLE);
-
+        completedCalls = 0; // important reset
         loadHotelsCount();
         loadActiveRoomsCount();
         loadBookingsCountAndRevenue();
@@ -124,12 +127,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 for (DataSnapshot hotelSnap : snapshot.getChildren()) {
                     Boolean isDeleted = hotelSnap.child("isDeleted").getValue(Boolean.class);
                     Boolean isActive = hotelSnap.child("isActive").getValue(Boolean.class);
-
-                    // Count non-deleted hotels (or active if you prefer)
                     if (isDeleted == null || !isDeleted) {
-                        if (isActive == null || isActive) {
-                            count++;
-                        }
+                        if (isActive == null || isActive) count++;
                     }
                 }
                 tvTotalHotels.setText(String.valueOf(count));
@@ -149,8 +148,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 long totalActiveRooms = 0;
-
-                // rooms/hotelId/roomId/...
                 for (DataSnapshot hotelRoomsSnap : snapshot.getChildren()) {
                     for (DataSnapshot roomSnap : hotelRoomsSnap.getChildren()) {
                         Boolean isActive = roomSnap.child("isActive").getValue(Boolean.class);
@@ -158,13 +155,9 @@ public class AdminDashboardActivity extends AppCompatActivity {
                         Long total = roomSnap.child("totalRooms").getValue(Long.class);
 
                         if (isActive == null || isActive) {
-                            if (available != null) {
-                                totalActiveRooms += available;
-                            } else if (total != null) {
-                                totalActiveRooms += total;
-                            } else {
-                                totalActiveRooms += 1;
-                            }
+                            if (available != null) totalActiveRooms += available;
+                            else if (total != null) totalActiveRooms += total;
+                            else totalActiveRooms += 1;
                         }
                     }
                 }
@@ -189,17 +182,11 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
                 for (DataSnapshot bookingSnap : snapshot.getChildren()) {
                     bookings++;
-
-                    // totalPrice can be Long or Double
                     Object totalObj = bookingSnap.child("totalPrice").getValue();
-                    if (totalObj instanceof Long) {
-                        revenue += (Long) totalObj;
-                    } else if (totalObj instanceof Double) {
-                        revenue += (Double) totalObj;
-                    } else if (totalObj instanceof String) {
-                        try {
-                            revenue += Double.parseDouble((String) totalObj);
-                        } catch (Exception ignored) {}
+                    if (totalObj instanceof Long) revenue += (Long) totalObj;
+                    else if (totalObj instanceof Double) revenue += (Double) totalObj;
+                    else if (totalObj instanceof String) {
+                        try { revenue += Double.parseDouble((String) totalObj); } catch (Exception ignored) {}
                     }
                 }
 
@@ -217,12 +204,9 @@ public class AdminDashboardActivity extends AppCompatActivity {
         });
     }
 
-    // very simple loading completion checker
     private int completedCalls = 0;
     private void checkLoadingDone() {
         completedCalls++;
-        if (completedCalls >= 3) {
-            progressBar.setVisibility(View.GONE);
-        }
+        if (completedCalls >= 3) progressBar.setVisibility(View.GONE);
     }
 }

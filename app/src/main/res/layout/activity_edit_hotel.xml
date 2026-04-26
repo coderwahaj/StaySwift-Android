@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="14dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/progressEditHotel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etEditHotelName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hotel Name"/>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etEditDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Description"/>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etEditPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Phone"/>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etEditEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Email"/>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etEditAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Address"/>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etEditOtherAmenities"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Other amenities"/>
+
+        <Button
+            android:id="@+id/btnSaveHotelEdit"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="16dp"
+            android:text="Save Changes"
+            android:textAllCaps="false"/>
+    </LinearLayout>
+</ScrollView>
