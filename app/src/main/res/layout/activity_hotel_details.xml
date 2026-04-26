@@ -77,7 +77,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Location"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"/>
 
+        <ImageView
+            android:id="@+id/ivMapThumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_marginTop="6dp"
+            android:scaleType="centerCrop"
+            android:background="#EAEAEA"
+            android:contentDescription="Hotel map location" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

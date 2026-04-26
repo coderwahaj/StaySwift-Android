@@ -21,6 +21,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.l227879.stayswift.R;
 import com.l227879.stayswift.models.Hotel;
+import android.net.Uri;
+import android.widget.ImageView;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -33,6 +36,7 @@ public class HotelDetailsActivity extends AppCompatActivity {
 
     private String hotelId;
     private Hotel hotel;
+    private ImageView ivMapThumbnail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,8 @@ public class HotelDetailsActivity extends AppCompatActivity {
         btnEdit = findViewById(R.id.btnEditHotelDetail);
         btnDelete = findViewById(R.id.btnDeleteHotelDetail);
         progress = findViewById(R.id.progressHotelDetails);
+        ivMapThumbnail = findViewById(R.id.ivMapThumbnail);
+
 
         hotelId = getIntent().getStringExtra("hotelId");
         if (TextUtils.isEmpty(hotelId)) {
@@ -121,6 +127,7 @@ public class HotelDetailsActivity extends AppCompatActivity {
         tvDesc.setText(value(h.description));
         tvPhone.setText("Phone: " + value(h.phone));
         tvEmail.setText("Email: " + value(h.email));
+        loadMapThumbnail(h.lat, h.lng);
 
         String am = (h.amenities == null || h.amenities.isEmpty()) ? "-" : TextUtils.join(", ", h.amenities);
         if (!TextUtils.isEmpty(h.otherAmenities)) am += "\nOther: " + h.otherAmenities;
@@ -141,7 +148,26 @@ public class HotelDetailsActivity extends AppCompatActivity {
             }
         });
     }
+    private void loadMapThumbnail(double lat, double lng) {
+        if (lat == 0.0 && lng == 0.0) {
+            ivMapThumbnail.setImageResource(android.R.color.darker_gray);
+            return;
+        }
 
+        // Uses Google Static Maps API
+        String url = "https://maps.googleapis.com/maps/api/staticmap"
+                + "?center=" + lat + "," + lng
+                + "&zoom=15"
+                + "&size=1200x600"
+                + "&maptype=roadmap"
+                + "&markers=color:red%7C" + lat + "," + lng
+                + "&key=" + getString(R.string.google_maps_key);
+
+        Glide.with(this)
+                .load(Uri.parse(url))
+                .placeholder(android.R.color.darker_gray)
+                .into(ivMapThumbnail);
+    }
     private void showDeleteConfirmation() {
         new AlertDialog.Builder(this)
                 .setTitle("Delete Hotel")
