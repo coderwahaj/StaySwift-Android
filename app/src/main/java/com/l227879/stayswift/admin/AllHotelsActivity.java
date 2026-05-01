@@ -135,32 +135,62 @@ public class AllHotelsActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void deleteHotel(Hotel hotel) {
-        if (hotel.hotelId == null || hotel.hotelId.trim().isEmpty()) {
-            Toast.makeText(this, "Invalid hotel ID", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        progressBar.setVisibility(View.VISIBLE);
-
-        // 1) Delete DB record
-        FirebaseDatabase.getInstance().getReference("hotels")
-                .child(hotel.hotelId)
-                .removeValue()
-                .addOnSuccessListener(unused -> {
-                    // 2) Delete storage folder hotel_photos/{hotelId}
-                    deleteStorageFolder("hotel_photos/" + hotel.hotelId, () -> {
-                        progressBar.setVisibility(View.GONE);
-                        Toast.makeText(this, "Hotel deleted successfully", Toast.LENGTH_SHORT).show();
-                        loadHotels();
-                    });
-                })
-                .addOnFailureListener(e -> {
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(this, "Delete failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                });
+//    private void deleteHotel(Hotel hotel) {
+//        if (hotel.hotelId == null || hotel.hotelId.trim().isEmpty()) {
+//            Toast.makeText(this, "Invalid hotel ID", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        progressBar.setVisibility(View.VISIBLE);
+//
+//        // 1) Delete DB record
+//        FirebaseDatabase.getInstance().getReference("hotels")
+//                .child(hotel.hotelId)
+//                .removeValue()
+//                .addOnSuccessListener(unused -> {
+//                    // 2) Delete storage folder hotel_photos/{hotelId}
+//                    deleteStorageFolder("hotel_photos/" + hotel.hotelId, () -> {
+//                        progressBar.setVisibility(View.GONE);
+//                        Toast.makeText(this, "Hotel deleted successfully", Toast.LENGTH_SHORT).show();
+//                        loadHotels();
+//                    });
+//                })
+//
+//                .addOnFailureListener(e -> {
+//                    progressBar.setVisibility(View.GONE);
+//                    Toast.makeText(this, "Delete failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+//                });
+//    }
+private void deleteHotel(Hotel hotel) {
+    if (hotel.hotelId == null || hotel.hotelId.trim().isEmpty()) {
+        Toast.makeText(this, "Invalid hotel ID", Toast.LENGTH_SHORT).show();
+        return;
     }
 
+    progressBar.setVisibility(View.VISIBLE);
+
+    String hid = hotel.hotelId;
+
+    // 1) Delete hotel + rooms together (single request)
+    java.util.Map<String, Object> updates = new java.util.HashMap<>();
+    updates.put("hotels/" + hid, null);
+    updates.put("rooms/" + hid, null);
+
+    FirebaseDatabase.getInstance().getReference()
+            .updateChildren(updates)
+            .addOnSuccessListener(unused -> {
+                // 2) Delete storage folder hotel_photos/{hotelId}
+                deleteStorageFolder("hotel_photos/" + hid, () -> {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(this, "Hotel + rooms deleted successfully", Toast.LENGTH_SHORT).show();
+                    loadHotels();
+                });
+            })
+            .addOnFailureListener(e -> {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(this, "Delete failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            });
+}
     // Deletes all files under a folder path
     private void deleteStorageFolder(String folderPath, Runnable onDone) {
         StorageReference folderRef = FirebaseStorage.getInstance().getReference().child(folderPath);
