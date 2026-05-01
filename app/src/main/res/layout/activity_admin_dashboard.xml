@@ -4,259 +4,240 @@
     android:id="@+id/rootContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundWhite">
+    android:background="#F7F9FC"
+    android:fitsSystemWindows="true">
 
     <ScrollView
         android:id="@+id/rootScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="20dp">
+            android:orientation="vertical">
 
-            <!-- Header -->
-            <LinearLayout
-                android:id="@+id/headerContainer"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:background="@drawable/bg_admin_header"
-                android:orientation="vertical"
-                android:paddingStart="20dp"
-                android:paddingTop="20dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="22dp">
+                android:layout_height="320dp"
+                android:background="@drawable/bg_admin_header_mesh"
+                android:padding="24dp">
 
-                <TextView
-                    android:id="@+id/tvHeaderTitle"
+                <LinearLayout
+                    android:id="@+id/centerHeaderContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Admin Dashboard"
-                    android:textColor="@android:color/white"
-                    android:textSize="30sp"
+                    android:layout_above="@id/statsCard"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/ivLogo"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:src="@drawable/stay_swift_logo" />
+
+                        <TextView
+                            android:id="@+id/tvHeaderTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Admin Dashboard"
+                            android:textColor="@android:color/white"
+                            android:textSize="26sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvAdminEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:alpha="0.8"
+                        android:text="admin@stayswift.com"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/statsCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="8dp"
+                    app:cardBackgroundColor="#33FFFFFF"
+                    app:cardCornerRadius="30dp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="16dp"
+                        android:weightSum="4">
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+                            <TextView android:id="@+id/tvTotalHotels" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textColor="@android:color/white" android:textSize="18sp" android:textStyle="bold" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Hotels" android:textColor="@android:color/white" android:textSize="10sp" android:alpha="0.8" />
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+                            <TextView android:id="@+id/tvActiveRooms" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textColor="@android:color/white" android:textSize="18sp" android:textStyle="bold" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Rooms" android:textColor="@android:color/white" android:textSize="10sp" android:alpha="0.8" />
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+                            <TextView android:id="@+id/tvTotalBookings" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textColor="@android:color/white" android:textSize="18sp" android:textStyle="bold" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Bookings" android:textColor="@android:color/white" android:textSize="10sp" android:alpha="0.8" />
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+                            <TextView android:id="@+id/tvRevenue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PKR 0" android:textColor="@android:color/white" android:textSize="14sp" android:textStyle="bold" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Revenue" android:textColor="@android:color/white" android:textSize="10sp" android:alpha="0.8" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Quick Actions"
+                    android:textColor="#334155"
+                    android:textSize="16sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnManageHotels"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="12dp"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="Manage Hotels"
+                    android:textAllCaps="false"
+                    android:textColor="#1E293B"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:drawableEnd="@drawable/ic_chevron_right"
+                    android:drawableTint="#CBD5E1"
+                    app:backgroundTint="@android:color/white"
+                    app:cornerRadius="16dp"
+                    app:icon="@android:drawable/ic_dialog_map"
+                    app:iconGravity="textStart"
+                    app:iconPadding="20dp"
+                    app:iconSize="26dp"
+                    app:iconTint="@color/primaryBlue"
+                    app:strokeColor="#E2E8F0"
+                    app:strokeWidth="1dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnManageRooms"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="12dp"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="Manage Rooms"
+                    android:textAllCaps="false"
+                    android:textColor="#1E293B"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:drawableEnd="@drawable/ic_chevron_right"
+                    android:drawableTint="#CBD5E1"
+                    app:backgroundTint="@android:color/white"
+                    app:cornerRadius="16dp"
+                    app:icon="@android:drawable/ic_menu_edit"
+                    app:iconGravity="textStart"
+                    app:iconPadding="20dp"
+                    app:iconSize="26dp"
+                    app:iconTint="#10B981"
+                    app:strokeColor="#E2E8F0"
+                    app:strokeWidth="1dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnViewBookings"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="12dp"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="View Bookings"
+                    android:textAllCaps="false"
+                    android:textColor="#1E293B"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:drawableEnd="@drawable/ic_chevron_right"
+                    android:drawableTint="#CBD5E1"
+                    app:backgroundTint="@android:color/white"
+                    app:cornerRadius="16dp"
+                    app:icon="@android:drawable/ic_menu_today"
+                    app:iconGravity="textStart"
+                    app:iconPadding="20dp"
+                    app:iconSize="26dp"
+                    app:iconTint="#F59E0B"
+                    app:strokeColor="#E2E8F0"
+                    app:strokeWidth="1dp" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnLogout"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="LOGOUT ADMIN"
+                    android:textColor="#EF4444"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tvAdminEmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Logged in as: admin@stayswift.com"
-                    android:textColor="#EAF6FF"
-                    android:textSize="14sp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp" />
+
             </LinearLayout>
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="12dp"
-                android:visibility="gone" />
-
-            <!-- Stats Grid -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/stats_card_bg"
-                    android:elevation="2dp"
-                    android:orientation="vertical"
-                    android:padding="14dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Total Hotels"
-                        android:textColor="@color/textSecondary"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/tvTotalHotels"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="0"
-                        android:textColor="@color/textPrimary"
-                        android:textSize="30sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/stats_card_bg"
-                    android:elevation="2dp"
-                    android:orientation="vertical"
-                    android:padding="14dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Active Rooms"
-                        android:textColor="@color/textSecondary"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/tvActiveRooms"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="0"
-                        android:textColor="@color/textPrimary"
-                        android:textSize="30sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/stats_card_bg"
-                    android:elevation="2dp"
-                    android:orientation="vertical"
-                    android:padding="14dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Total Bookings"
-                        android:textColor="@color/textSecondary"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/tvTotalBookings"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="0"
-                        android:textColor="@color/textPrimary"
-                        android:textSize="30sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/stats_card_bg"
-                    android:elevation="2dp"
-                    android:orientation="vertical"
-                    android:padding="14dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Revenue"
-                        android:textColor="@color/textSecondary"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/tvRevenue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="PKR 0"
-                        android:textColor="@color/textPrimary"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Quick Actions"
-                android:textColor="@color/textPrimary"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/btnManageHotels"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginTop="14dp"
-                android:background="@drawable/rounded_button"
-                android:text="View Hotels"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/btnManageRooms"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/rounded_button"
-                android:text="Add / Manage Rooms"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
-
-            <!-- Logout (force text visible) -->
-            <Button
-                android:id="@+id/btnLogout"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginTop="14dp"
-                android:background="@drawable/outline_button_bg"
-                android:text="Logout"
-                android:textAllCaps="false"
-                android:textColor="@color/backgroundWhite"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <!-- add bottom space so FAB doesn't cover last content -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="80dp" />
-
         </LinearLayout>
     </ScrollView>
 
-    <!-- FAB: Add Hotel -->
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fabAddHotel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="Add Hotel"
-        android:textAllCaps="false"
+        android:layout_margin="24dp"
+        android:text="New Hotel"
         android:textColor="@android:color/white"
-        app:icon="@android:drawable/ic_input_add"
-        app:iconTint="@android:color/white"
         app:backgroundTint="@color/primaryBlue"
-        app:elevation="10dp" />
+        app:icon="@android:drawable/ic_input_add"
+        app:iconTint="@android:color/white" />
 
 </RelativeLayout>

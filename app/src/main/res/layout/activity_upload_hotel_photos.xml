@@ -1,89 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/backgroundWhite"
-    android:padding="16dp">
+    android:background="#F0F4F8">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create Hotel"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:textColor="@color/textPrimary" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Upload hotel photos"
-        android:textSize="14sp"
-        android:textColor="@color/textSecondary"
-        android:layout_marginTop="4dp" />
-
-    <TextView
-        android:id="@+id/tvPhotoCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0 / 10 selected"
-        android:textSize="13sp"
-        android:textColor="@color/textSecondary"
-        android:layout_marginTop="12dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPhotos"
+    <View
+        android:id="@+id/topHeader"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="10dp"
-        android:clipToPadding="false"
-        android:paddingBottom="8dp" />
+        android:layout_height="220dp"
+        android:background="@drawable/bg_admin_header_mesh" />
 
     <LinearLayout
+        android:id="@+id/headerTextContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="3"
-        android:layout_marginTop="10dp">
+        android:orientation="vertical"
+        android:padding="28dp">
 
-        <Button
-            android:id="@+id/btnBackPhotos"
-            android:layout_width="0dp"
-            android:layout_height="54dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="6dp"
-            android:text="Back"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:textColor="@color/backgroundWhite"
-            android:background="@drawable/outline_button_bg" />
-
-        <Button
-            android:id="@+id/btnAddPhotos"
-            android:layout_width="0dp"
-            android:layout_height="54dp"
-            android:layout_weight="1"
-            android:layout_marginStart="3dp"
-            android:layout_marginEnd="3dp"
-            android:text="Add Photos"
-            android:textAllCaps="false"
-            android:textStyle="bold"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="Hotel Photos"
             android:textColor="@android:color/white"
-            android:background="@drawable/rounded_button" />
+            android:textSize="32sp" />
 
-        <Button
-            android:id="@+id/btnNextPhotos"
-            android:layout_width="0dp"
-            android:layout_height="54dp"
-            android:layout_weight="1"
-            android:layout_marginStart="6dp"
-            android:text="Next"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
-            android:background="@drawable/rounded_button" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_alpha_badge"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:text="Step 3 of 3"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvPhotoCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:alpha="0.9"
+                android:text="0 / 10 selected"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/headerTextContainer"
+        android:layout_marginTop="-20dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="36dp"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPhotos"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:clipToPadding="false"
+                android:paddingBottom="16dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBackPhotos"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="64dp"
+                    android:layout_weight="0.8"
+                    android:text="Back"
+                    android:textAllCaps="false"
+                    android:textColor="#64748B"
+                    android:fontFamily="sans-serif-medium"
+                    app:backgroundTint="@android:color/white"
+                    app:cornerRadius="24dp"
+                    app:strokeColor="#E2E8F0"
+                    app:strokeWidth="1dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAddPhotos"
+                    android:layout_width="0dp"
+                    android:layout_height="64dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Add"
+                    android:textAllCaps="false"
+                    app:backgroundTint="#F1F5F9"
+                    app:cornerRadius="24dp"
+                    app:icon="@android:drawable/ic_menu_add"
+                    app:iconGravity="textStart"
+                    app:iconTint="#0080FF"
+                    app:rippleColor="#D1D5DB"
+                    app:strokeColor="#E2E8F0"
+                    app:strokeWidth="1dp"
+                    android:textColor="#1E293B" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnNextPhotos"
+                    android:layout_width="0dp"
+                    android:layout_height="64dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1.2"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Finish"
+                    android:textAllCaps="false"
+                    app:backgroundTint="#0080FF"
+                    app:cornerRadius="24dp"
+                    app:elevation="8dp"
+                    app:icon="@android:drawable/checkbox_on_background"
+                    app:iconGravity="textEnd" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</RelativeLayout>

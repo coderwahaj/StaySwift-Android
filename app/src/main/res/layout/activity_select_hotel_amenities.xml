@@ -1,150 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rootAmenities"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="@color/backgroundWhite"
-    android:clipToPadding="false">
+    android:background="#F0F4F8">
+
+    <View
+        android:id="@+id/topHeader"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="@drawable/bg_admin_header_mesh" />
 
     <LinearLayout
+        android:id="@+id/headerTextContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="28dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create Hotel"
-            android:textColor="@color/textPrimary"
-            android:textSize="28sp"
-            android:textStyle="bold" />
+            android:fontFamily="sans-serif-black"
+            android:text="Amenities"
+            android:textColor="@android:color/white"
+            android:textSize="32sp" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Select amenities"
-            android:textColor="@color/textSecondary"
-            android:textSize="14sp" />
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:orientation="vertical"
-            android:background="@drawable/stats_card_bg"
-            android:padding="14dp">
-
-            <CheckBox
-                android:id="@+id/cbWifi"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Free Wi-Fi" />
-
-            <CheckBox
-                android:id="@+id/cbParking"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Parking" />
-
-            <CheckBox
-                android:id="@+id/cbBreakfast"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Breakfast Included" />
-
-            <CheckBox
-                android:id="@+id/cbPool"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Swimming Pool" />
-
-            <CheckBox
-                android:id="@+id/cbGym"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Gym / Fitness" />
-
-            <CheckBox
-                android:id="@+id/cbAc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Air Conditioning" />
-
-            <CheckBox
-                android:id="@+id/cbRestaurant"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Restaurant" />
-
-            <CheckBox
-                android:id="@+id/cbRoomService"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Room Service" />
-
-            <CheckBox
-                android:id="@+id/cbAirportShuttle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Airport Shuttle" />
-
-            <CheckBox
-                android:id="@+id/cbFamilyRooms"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Family Rooms" />
-        </LinearLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:hint="Other amenities (comma separated)"
-            android:textColorHint="@color/textSecondary">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etOtherAmenities"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:minLines="2"
-                android:maxLines="4" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <Button
-                android:id="@+id/btnBackAmenities"
-                android:layout_width="0dp"
-                android:layout_height="54dp"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/outline_button_bg"
-                android:text="Back"
-                android:textAllCaps="false"
-                android:textColor="@color/backgroundWhite"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/btnNextAmenities"
-                android:layout_width="0dp"
-                android:layout_height="54dp"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/rounded_button"
-                android:text="Next: Photos"
-                android:textAllCaps="false"
+                android:background="@drawable/bg_white_alpha_badge"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:text="Step 2 of 3"
                 android:textColor="@android:color/white"
+                android:textSize="12sp"
                 android:textStyle="bold" />
-        </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:alpha="0.9"
+                android:text="What does your property offer?"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
     </LinearLayout>
-</ScrollView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/headerTextContainer"
+        android:layout_marginTop="-20dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="36dp"
+        app:cardElevation="0dp">
+
+        <ScrollView
+            android:id="@+id/rootAmenities"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:fillViewport="true"
+            android:paddingBottom="40dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Select Amenities"
+                    android:textColor="#1E293B"
+                    android:textSize="18sp" />
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:alignmentMode="alignMargins"
+                    android:columnCount="2"
+                    android:columnOrderPreserved="false">
+
+                    <CheckBox android:id="@+id/cbWifi" style="@style/AmenityTile" android:text="Free Wi-Fi" />
+                    <CheckBox android:id="@+id/cbParking" style="@style/AmenityTile" android:text="Parking" />
+                    <CheckBox android:id="@+id/cbBreakfast" style="@style/AmenityTile" android:text="Breakfast" />
+                    <CheckBox android:id="@+id/cbPool" style="@style/AmenityTile" android:text="Pool" />
+                    <CheckBox android:id="@+id/cbGym" style="@style/AmenityTile" android:text="Gym" />
+                    <CheckBox android:id="@+id/cbAc" style="@style/AmenityTile" android:text="A/C" />
+                    <CheckBox android:id="@+id/cbRestaurant" style="@style/AmenityTile" android:text="Dining" />
+                    <CheckBox android:id="@+id/cbRoomService" style="@style/AmenityTile" android:text="Service" />
+                    <CheckBox android:id="@+id/cbAirportShuttle" style="@style/AmenityTile" android:text="Shuttle" />
+                    <CheckBox android:id="@+id/cbFamilyRooms" style="@style/AmenityTile" android:text="Family" />
+
+                </GridLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:hint="Add custom amenities..."
+                    app:boxCornerRadiusBottomEnd="20dp"
+                    app:boxCornerRadiusBottomStart="20dp"
+                    app:boxCornerRadiusTopEnd="20dp"
+                    app:boxCornerRadiusTopStart="20dp"
+                    app:boxStrokeColor="#0080FF"
+                    app:startIconDrawable="@android:drawable/ic_input_add"
+                    app:startIconTint="#0080FF">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etOtherAmenities"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:minLines="3"
+                        android:textColor="#1E293B" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnBackAmenities"
+                        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="64dp"
+                        android:layout_weight="1"
+                        android:text="Back"
+                        android:textAllCaps="false"
+                        android:textColor="#64748B"
+                        android:fontFamily="sans-serif-medium"
+                        app:backgroundTint="@android:color/white"
+                        app:cornerRadius="24dp"
+                        app:strokeColor="#E2E8F0"
+                        app:strokeWidth="1dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnNextAmenities"
+                        android:layout_width="0dp"
+                        android:layout_height="64dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="2"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Next: Add Photos"
+                        android:textAllCaps="false"
+                        app:backgroundTint="#0080FF"
+                        app:cornerRadius="24dp"
+                        app:elevation="8dp"
+                        app:icon="@android:drawable/ic_menu_camera"
+                        app:iconGravity="textEnd" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </com.google.android.material.card.MaterialCardView>
+</RelativeLayout>

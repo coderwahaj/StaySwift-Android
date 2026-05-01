@@ -3,48 +3,105 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="12dp">
+    android:background="#F0F4F8">
 
-    <TextView
-        android:id="@+id/tvTitleRooms"
+    <View
+        android:id="@+id/topHeader"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="@drawable/bg_admin_header_mesh" />
+
+    <LinearLayout
+        android:id="@+id/headerTextContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="20sp" />
+        android:orientation="vertical"
+        android:padding="28dp">
 
-    <ProgressBar
-        android:id="@+id/progressRooms"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvTitleRooms"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="14dp"
-        android:visibility="gone" />
+        <TextView
+            android:id="@+id/tvTitleRooms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:textColor="@android:color/white"
+            android:textSize="26sp" />
 
-    <TextView
-        android:id="@+id/tvEmptyRooms"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvTitleRooms"
-        android:layout_marginTop="14dp"
-        android:layout_centerHorizontal="true"
-        android:text="No room categories yet"
-        android:visibility="gone" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:alpha="0.8"
+            android:text="Manage your property configurations"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+    </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvRoomCategories"
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tvTitleRooms"
-        android:layout_marginTop="10dp"
-        android:layout_above="@id/fabAddRoomCategory"/>
+        android:layout_below="@id/headerTextContainer"
+        android:layout_marginTop="-20dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="36dp"
+        app:cardElevation="0dp">
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/fabAddRoomCategory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:text="Add Category"
-        app:icon="@android:drawable/ic_input_add" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="24dp">
+
+            <ProgressBar
+                android:id="@+id/progressRooms"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:indeterminateTint="#0080FF"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/emptyStateContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvEmptyRooms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="No room categories yet"
+                    android:textColor="#94A3B8"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRoomCategories"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="100dp"
+                android:scrollbars="none" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/fabAddRoomCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="20dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Add Category"
+                android:textColor="@android:color/white"
+                app:backgroundTint="#0080FF"
+                app:cornerRadius="20dp"
+                app:elevation="8dp"
+                app:icon="@android:drawable/ic_input_add"
+                app:iconTint="@android:color/white" />
+
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
 </RelativeLayout>

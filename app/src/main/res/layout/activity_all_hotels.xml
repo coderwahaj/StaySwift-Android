@@ -1,44 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundWhite"
-    android:padding="12dp">
+    android:background="#F8FAFC">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@drawable/bg_admin_header_mesh" /> <TextView
+    android:id="@+id/tvTitleHotels"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="24dp"
+    android:layout_marginTop="40dp"
+    android:fontFamily="sans-serif-black"
+    android:text="All Hotels"
+    android:textColor="@android:color/white"
+    android:textSize="28sp"
+    android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/tvTitleHotels"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="All Hotels"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="@color/textPrimary" />
-
-    <ProgressBar
-        android:id="@+id/progressBarHotels"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvTitleHotels"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="14dp"
-        android:visibility="gone" />
+        android:layout_marginStart="24dp"
+        android:alpha="0.8"
+        android:text="View and manage property listings"
+        android:textColor="@android:color/white"
+        android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/tvEmptyHotels"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvTitleHotels"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp"
-        android:text="No hotels found."
-        android:textColor="@color/textSecondary"
-        android:visibility="gone" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvHotels"
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tvTitleHotels"
-        android:layout_marginTop="12dp" />
+        android:layout_marginTop="120dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="0dp"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.MediumComponent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="20dp">
+
+            <ProgressBar
+                android:id="@+id/progressBarHotels"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:indeterminateTint="#0080FF"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvEmptyHotels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableTop="@android:drawable/ic_menu_search"
+                android:drawablePadding="12dp"
+                android:text="No hotels found."
+                android:textColor="#94A3B8"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvHotels"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingHorizontal="16dp"
+                android:paddingBottom="80dp" />
+
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 </RelativeLayout>

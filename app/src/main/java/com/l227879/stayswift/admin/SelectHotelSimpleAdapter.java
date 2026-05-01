@@ -14,11 +14,21 @@ public class SelectHotelSimpleAdapter extends RecyclerView.Adapter<SelectHotelSi
 
     public interface Listener { void onClick(Hotel hotel); }
 
-    private final ArrayList<Hotel> list;
+    private final ArrayList<Hotel> list; // This is the list the adapter is tied to
     private final Listener listener;
 
     public SelectHotelSimpleAdapter(ArrayList<Hotel> list, Listener listener) {
         this.list = list; this.listener = listener;
+    }
+
+    // --- ADDED METHOD FOR SEARCH ---
+    public void filterList(ArrayList<Hotel> filteredList) {
+        // Since 'list' is final, we clear it and add the filtered results
+        this.list.clear();
+        this.list.addAll(filteredList);
+
+        // Refresh the UI
+        notifyDataSetChanged();
     }
 
     @NonNull @Override

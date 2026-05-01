@@ -3,144 +3,162 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootPickLocation"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F0F4F8">
 
-    <!-- Map -->
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- Search bar overlay -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        app:cardCornerRadius="14dp"
-        app:cardElevation="10dp">
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="50dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="8dp"
+        app:strokeWidth="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:padding="10dp">
+            android:paddingHorizontal="16dp">
 
             <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:src="@android:drawable/ic_menu_search"
-                android:tint="@android:color/darker_gray" />
+                app:tint="#64748B" />
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:id="@+id/etSearchPlace"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_marginStart="10dp"
-                android:hint="Search place or address"
+                android:layout_marginStart="12dp"
+                android:hint="Search property address..."
                 android:background="@android:color/transparent"
-                android:inputType="text" />
+                android:fontFamily="sans-serif-medium"
+                android:textColor="#1E293B"
+                android:textColorHint="#94A3B8"
+                android:textSize="15sp"
+                android:inputType="text"
+                android:imeOptions="actionSearch"
+                android:completionThreshold="1"
+
+                android:popupBackground="@drawable/bg_dropdown_popup"
+                android:dropDownVerticalOffset="8dp"
+                android:dropDownAnchor="@id/cardSearch" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="24dp"
+                android:layout_marginHorizontal="8dp"
+                android:background="#E2E8F0" />
 
             <ImageButton
                 android:id="@+id/btnMyLocation"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@android:color/transparent"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Current location"
                 android:src="@android:drawable/ic_menu_mylocation"
-                android:tint="@color/primaryBlue" />
+                app:tint="#0080FF" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Small loading indicator (reverse geocode / location) -->
     <ProgressBar
         android:id="@+id/progressSmall"
         style="?android:attr/progressBarStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_below="@id/cardSearch"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="18dp"
-        android:layout_marginTop="6dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:indeterminateTint="#0080FF"
         android:visibility="gone" />
 
-    <!-- Bottom panel -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="12dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="10dp">
+        android:layout_margin="16dp"
+        app:cardCornerRadius="28dp"
+        app:cardElevation="12dp"
+        app:strokeWidth="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="14dp">
+            android:padding="24dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hotel location"
-                android:textStyle="bold"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tvHint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Search, use current location, or tap on the map to drop a pin."
-                android:textSize="13sp"
-                android:textColor="@android:color/darker_gray" />
+                android:text="Property Location"
+                android:textAllCaps="true"
+                android:letterSpacing="0.1"
+                android:fontFamily="sans-serif-black"
+                android:textColor="#64748B"
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/tvSelectedAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="No location selected yet"
-                android:textSize="14sp"
-                android:textColor="@android:color/black" />
+                android:layout_marginTop="8dp"
+                android:text="Drop a pin or search to select address"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="15sp"
+                android:textColor="#1E293B" />
+
+            <TextView
+                android:id="@+id/tvHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="This address will be visible to your customers."
+                android:textSize="12sp"
+                android:textColor="#94A3B8" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="24dp"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnBack"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
-                    android:layout_height="52dp"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
+                    android:layout_height="56dp"
+                    android:layout_weight="0.7"
+                    android:layout_marginEnd="12dp"
                     android:text="Back"
                     android:textAllCaps="false"
-                    android:background="@drawable/outline_button_bg"
-                    android:textColor="@color/backgroundWhite"
-                    android:textStyle="bold" />
+                    android:textColor="#64748B"
+                    app:strokeColor="#CBD5E1"
+                    app:cornerRadius="16dp" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnUseLocation"
                     android:layout_width="0dp"
-                    android:layout_height="52dp"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
-                    android:text="Confirm location"
+                    android:layout_height="56dp"
+                    android:layout_weight="1.3"
+                    android:text="Confirm Location"
                     android:textAllCaps="false"
-                    android:background="@drawable/rounded_button"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold" />
+                    android:fontFamily="sans-serif-black"
+                    app:backgroundTint="#0080FF"
+                    app:cornerRadius="16dp"
+                    app:elevation="4dp" />
             </LinearLayout>
-
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
-
 </RelativeLayout>
