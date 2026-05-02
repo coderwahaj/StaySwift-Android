@@ -37,6 +37,8 @@
         <activity android:name=".admin.RoomCategoriesActivity" />
         <activity android:name=".admin.AddEditRoomCategoryActivity" />
         <activity android:name=".admin.ManageRoomsActivity" />
+        <activity android:name=".user.HotelDetailGuestActivity" />
+        <activity android:name=".user.HotelListActivity" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">
@@ -46,8 +48,6 @@
             </intent-filter>
         </activity>
 
-        <!-- Optional: keep MainActivity only if you still use it -->
-        <!-- <activity android:name=".MainActivity" /> -->
 
     </application>
 
