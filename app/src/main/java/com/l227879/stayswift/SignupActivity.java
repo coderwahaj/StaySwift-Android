@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -46,7 +49,6 @@ public class SignupActivity extends AppCompatActivity {
         TextView tvLogin = findViewById(R.id.tvLogin);
         tvLogin.setOnClickListener(v -> {
             finish();
-            // OR startActivity(new Intent(SignupActivity.this, LoginActivity.class));
         });
     }
 
@@ -64,16 +66,16 @@ public class SignupActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) {
                         progressBar.setVisibility(View.GONE);
-                        Toast.makeText(this, task.getException() != null ?
-                                        task.getException().getMessage() : "Signup failed",
-                                Toast.LENGTH_SHORT).show();
+                        // Using beautiful toast for error
+                        showSwiftToast(task.getException() != null ?
+                                task.getException().getMessage() : "Signup failed");
                         return;
                     }
 
                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
                     if (firebaseUser == null) {
                         progressBar.setVisibility(View.GONE);
-                        Toast.makeText(this, "User creation issue", Toast.LENGTH_SHORT).show();
+                        showSwiftToast("User creation issue");
                         return;
                     }
 
@@ -83,15 +85,35 @@ public class SignupActivity extends AppCompatActivity {
                     usersRef.child(uid).setValue(user).addOnCompleteListener(saveTask -> {
                         progressBar.setVisibility(View.GONE);
                         if (saveTask.isSuccessful()) {
-                            Toast.makeText(this, "Account created", Toast.LENGTH_SHORT).show();
+                            // BEAUTIFUL TOAST CALLED HERE
+                            showSwiftToast("Welcome to StaySwift, " + name + "!");
+
                             startActivity(new Intent(this, GuestHomeActivity.class));
                             finish();
                         } else {
-                            Toast.makeText(this, "User saved auth but DB write failed",
-                                    Toast.LENGTH_LONG).show();
+                            showSwiftToast("User saved auth but DB write failed");
                         }
                     });
                 });
+    }
+
+    /**
+     * REUSABLE BEAUTIFUL TOAST METHOD
+     * Ensure you have layout_custom_toast.xml and bg_custom_toast.xml created
+     */
+    private void showSwiftToast(String message) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.layout_custom_toast,
+                (ViewGroup) findViewById(R.id.custom_toast_container));
+
+        TextView text = layout.findViewById(R.id.toast_text);
+        text.setText(message);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.BOTTOM, 0, 100);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        toast.show();
     }
 
     private boolean isValid(String name, String email, String password, String confirm) {

@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -15,11 +18,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
 
     private static final String ADMIN_EMAIL = "admin@stayswift.com";
-
     private EditText etEmail, etPassword;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
@@ -52,20 +56,62 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
-                    progressBar.setVisibility(View.GONE);
                     if (task.isSuccessful()) {
-                        if (ADMIN_EMAIL.equalsIgnoreCase(email)) {
-                            startActivity(new Intent(this, AdminDashboardActivity.class));
-                        } else {
-                            startActivity(new Intent(this, GuestHomeActivity.class));
-                        }
-                        finish();
+                        fetchUserNameAndRedirect(email);
                     } else {
-                        Toast.makeText(this, task.getException() != null ?
-                                        task.getException().getMessage() : "Login failed",
-                                Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                        showSwiftToast(task.getException() != null ?
+                                task.getException().getMessage() : "Login failed");
                     }
                 });
+    }
+
+    private void fetchUserNameAndRedirect(String email) {
+        String uid = mAuth.getCurrentUser().getUid();
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(uid);
+
+        userRef.get().addOnCompleteListener(task -> {
+            progressBar.setVisibility(View.GONE);
+            String nameForToast = "";
+
+            if (task.isSuccessful() && task.getResult().exists()) {
+                nameForToast = task.getResult().child("name").getValue(String.class);
+            }
+
+            if (nameForToast == null || nameForToast.isEmpty()) {
+                nameForToast = email.split("@")[0];
+                nameForToast = nameForToast.substring(0, 1).toUpperCase() + nameForToast.substring(1);
+            }
+
+            // USE THE NEW BEAUTIFUL TOAST
+            showSwiftToast("Welcome back, " + nameForToast + "!");
+
+            if (ADMIN_EMAIL.equalsIgnoreCase(email)) {
+                startActivity(new Intent(this, AdminDashboardActivity.class));
+            } else {
+                startActivity(new Intent(this, GuestHomeActivity.class));
+            }
+            finish();
+        });
+    }
+
+    /**
+     * REUSABLE BEAUTIFUL TOAST METHOD
+     * Copy this method to any Activity to use it.
+     */
+    private void showSwiftToast(String message) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.layout_custom_toast,
+                (ViewGroup) findViewById(R.id.custom_toast_container));
+
+        TextView text = layout.findViewById(R.id.toast_text);
+        text.setText(message);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.BOTTOM, 0, 100);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        toast.show();
     }
 
     private boolean isValid(String email, String password) {
