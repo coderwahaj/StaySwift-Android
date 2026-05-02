@@ -46,7 +46,15 @@
             android:layout_height="wrap_content"
             android:textColor="@color/textSecondary"
             android:layout_marginTop="4dp"/>
-
+        <TextView
+            android:id="@+id/tvFromPriceGuest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="From -"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/primaryBlue" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

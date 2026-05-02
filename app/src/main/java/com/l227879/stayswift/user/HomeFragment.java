@@ -64,6 +64,12 @@ public class HomeFragment extends Fragment {
     private SearchSuggestionsAdapter suggestionsAdapter;
 
     private FusedLocationProviderClient fusedLocationClient;
+    private Double userLat = null;
+    private Double userLng = null;
+
+    // Choose behavior:
+    // - within 60km only (strict)
+    private static final double NEARBY_RADIUS_KM = 60.0;
 
     private final ActivityResultLauncher<String> locationPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
@@ -99,17 +105,15 @@ public class HomeFragment extends Fragment {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
         askLocationPermissionAutomatically();
 
-        // layouts
+        // LayoutManagers
         rvNearYou.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         rvTopRated.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         rvCities.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         rvSuggestions.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        // adapters (HomeHotelAdapter must be the version that accepts minPriceByHotelId)
+        // Adapters
         nearYouAdapter = new HomeHotelAdapter(nearYou, minPriceByHotelId, this::openHotelDetails);
         topRatedAdapter = new HomeHotelAdapter(topRated, minPriceByHotelId, this::openHotelDetails);
-
-        // Fixed famous cities list + click opens city filtered list
         cityAdapter = new CityAdapter(cities, city -> openHotelList(city, "city", city));
 
         suggestionsAdapter = new SearchSuggestionsAdapter(suggestions, hotel -> {
@@ -124,10 +128,7 @@ public class HomeFragment extends Fragment {
         rvSuggestions.setAdapter(suggestionsAdapter);
 
         setupSearch(view);
-
-        // Load fixed cities immediately (so UI looks correct even before hotels load)
         loadFamousCities();
-
         loadHotels();
     }
 
@@ -204,14 +205,10 @@ public class HomeFragment extends Fragment {
         cities.add("Karachi");
         cities.add("Multan");
         cities.add("Faisalabad");
-        // optional famous cities:
-        // cities.add("Rawalpindi");
-        // cities.add("Peshawar");
-        // cities.add("Quetta");
         cityAdapter.notifyDataSetChanged();
     }
 
-    // ------------------- load hotels + prices -------------------
+    // ------------------- load hotels -------------------
 
     private void loadHotels() {
         progress.setVisibility(View.VISIBLE);
@@ -242,19 +239,22 @@ public class HomeFragment extends Fragment {
                             return;
                         }
 
+                        // Sort once (newest first) - used for topRated fallback
                         Collections.sort(allHotels, (a, b) -> Long.compare(b.createdAt, a.createdAt));
 
-                        nearYou.clear();
+                        // 1) Highest Rated (temporary: newest)
                         topRated.clear();
-
                         int limit = Math.min(10, allHotels.size());
-                        for (int i = 0; i < limit; i++) nearYou.add(allHotels.get(i));
                         for (int i = 0; i < limit; i++) topRated.add(allHotels.get(i));
-
-                        nearYouAdapter.notifyDataSetChanged();
                         topRatedAdapter.notifyDataSetChanged();
+
+                        // 2) Near You (distance based if location available)
+                        rebuildNearYouList();
+                        nearYouAdapter.notifyDataSetChanged();
+
                         tvEmpty.setVisibility(View.GONE);
 
+                        // Fetch min prices for currently visible hotels
                         fetchMinPricesForVisibleHotels();
                     }
 
@@ -263,6 +263,37 @@ public class HomeFragment extends Fragment {
                         Toast.makeText(requireContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void rebuildNearYouList() {
+        nearYou.clear();
+
+        if (userLat == null || userLng == null) {
+            // location not ready: show newest as fallback
+            int limit = Math.min(10, allHotels.size());
+            for (int i = 0; i < limit; i++) nearYou.add(allHotels.get(i));
+            return;
+        }
+
+        ArrayList<HotelDistance> temp = new ArrayList<>();
+
+        for (Hotel h : allHotels) {
+            if (h == null) continue;
+            if (h.lat == 0.0 && h.lng == 0.0) continue;
+
+            double distKm = distanceKm(userLat, userLng, h.lat, h.lng);
+            if (distKm <= NEARBY_RADIUS_KM) {
+                temp.add(new HotelDistance(h, distKm));
+            }
+        }
+
+        Collections.sort(temp, (a, b) -> Double.compare(a.distanceKm, b.distanceKm));
+
+        int limit = Math.min(10, temp.size());
+        for (int i = 0; i < limit; i++) nearYou.add(temp.get(i).hotel);
+
+        // Strict behavior: if none within radius -> show empty list
+        // (If you prefer fallback to newest, tell me and I’ll change)
     }
 
     private void fetchMinPricesForVisibleHotels() {
@@ -304,7 +335,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    // ------------------- city extraction (used for search only) -------------------
+    // ------------------- city extraction (search only) -------------------
 
     private String extractCityFromAddress(@Nullable String address) {
         if (address == null) return "";
@@ -313,7 +344,7 @@ public class HomeFragment extends Fragment {
         return address.trim();
     }
 
-    // ------------------- location (auto request) -------------------
+    // ------------------- location -------------------
 
     private void askLocationPermissionAutomatically() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -334,7 +365,18 @@ public class HomeFragment extends Fragment {
                             tvLocation.setText("Location unavailable");
                             return;
                         }
-                        reverseGeocodeAndShow(location.getLatitude(), location.getLongitude());
+
+                        userLat = location.getLatitude();
+                        userLng = location.getLongitude();
+
+                        reverseGeocodeAndShow(userLat, userLng);
+
+                        // If hotels already loaded, rebuild near you now
+                        if (!allHotels.isEmpty()) {
+                            rebuildNearYouList();
+                            nearYouAdapter.notifyDataSetChanged();
+                            fetchMinPricesForVisibleHotels();
+                        }
                     })
                     .addOnFailureListener(e -> tvLocation.setText("Location unavailable"));
         } catch (Exception e) {
@@ -365,6 +407,30 @@ public class HomeFragment extends Fragment {
 
         } catch (Exception e) {
             tvLocation.setText("Your location");
+        }
+    }
+
+    // ------------------- distance helpers -------------------
+
+    private double distanceKm(double lat1, double lon1, double lat2, double lon2) {
+        final double R = 6371.0;
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lon2 - lon1);
+
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+    }
+
+    private static class HotelDistance {
+        Hotel hotel;
+        double distanceKm;
+        HotelDistance(Hotel hotel, double distanceKm) {
+            this.hotel = hotel;
+            this.distanceKm = distanceKm;
         }
     }
 

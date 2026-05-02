@@ -35,6 +35,7 @@ public class HotelDetailGuestActivity extends AppCompatActivity {
     private TextView tvAmenities;
     private String hotelId;
     private Hotel hotel;
+    private TextView tvFromPriceGuest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class HotelDetailGuestActivity extends AppCompatActivity {
         btnBook = findViewById(R.id.btnBookHotel);
         progress = findViewById(R.id.progressGuestHotelDetail);
         tvAmenities = findViewById(R.id.tvHotelAmenitiesGuest);
+        tvFromPriceGuest = findViewById(R.id.tvFromPriceGuest);
 
         hotelId = getIntent().getStringExtra("hotelId");
         if (TextUtils.isEmpty(hotelId)) {
@@ -66,7 +68,40 @@ public class HotelDetailGuestActivity extends AppCompatActivity {
 
         loadHotel();
     }
+    private void loadMinPrice(@NonNull String hotelId) {
+        tvFromPriceGuest.setText("From -");
 
+        FirebaseDatabase.getInstance().getReference("rooms")
+                .child(hotelId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Integer min = null;
+
+                        for (DataSnapshot roomSnap : snapshot.getChildren()) {
+                            Long basePrice = roomSnap.child("basePrice").getValue(Long.class);
+                            Long discountPrice = roomSnap.child("discountPrice").getValue(Long.class);
+
+                            long price = 0;
+                            if (discountPrice != null && discountPrice > 0) price = discountPrice;
+                            else if (basePrice != null && basePrice > 0) price = basePrice;
+
+                            if (price > 0) {
+                                if (min == null || price < min) min = (int) price;
+                            }
+                        }
+
+                        if (min != null) {
+                            tvFromPriceGuest.setText("From Rs " + min + " / night");
+                        } else {
+                            tvFromPriceGuest.setText("From -");
+                        }
+                    }
+
+                    @Override public void onCancelled(@NonNull DatabaseError error) {
+                        tvFromPriceGuest.setText("From -");
+                    }
+                });
+    }
     private void loadHotel() {
         progress.setVisibility(View.VISIBLE);
 
@@ -83,6 +118,7 @@ public class HotelDetailGuestActivity extends AppCompatActivity {
                         }
                         if (TextUtils.isEmpty(hotel.hotelId)) hotel.hotelId = hotelId;
                         bindHotel(hotel);
+                        loadMinPrice(hotelId);
                     }
 
                     @Override public void onCancelled(@NonNull DatabaseError error) {
