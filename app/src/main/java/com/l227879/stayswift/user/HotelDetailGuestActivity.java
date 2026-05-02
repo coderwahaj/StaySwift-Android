@@ -62,8 +62,9 @@ public class HotelDetailGuestActivity extends AppCompatActivity {
 
         ivMapThumb.setOnClickListener(v -> openGoogleMapsForHotel());
         btnBook.setOnClickListener(v -> {
-            // Step later: SelectRoomActivity -> Checkout
-            Toast.makeText(this, "Booking flow next step", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this, SelectRoomActivity.class);
+            i.putExtra("hotelId", hotelId);
+            startActivity(i);
         });
 
         loadHotel();

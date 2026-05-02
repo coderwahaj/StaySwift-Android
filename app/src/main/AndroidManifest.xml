@@ -39,6 +39,8 @@
         <activity android:name=".admin.ManageRoomsActivity" />
         <activity android:name=".user.HotelDetailGuestActivity" />
         <activity android:name=".user.HotelListActivity" />
+        <activity android:name=".user.SelectRoomActivity" />
+        <activity android:name=".user.BookingCheckoutActivity" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">
