@@ -7,6 +7,7 @@ public class RoomCategory {
     public String hotelId;
     public String category;
     public String description;
+    public String bedType;
 
     public long basePrice;
     public long discountPrice;
@@ -17,9 +18,11 @@ public class RoomCategory {
     public long maxAdults;
     public long maxChildren;
 
+    public long sizeSqft;
+
     public boolean isActive;
 
-    public ArrayList<String> amenities;
+    public java.util.ArrayList<String> amenities;
 
     public RoomCategory() {}
 }

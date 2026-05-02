@@ -41,6 +41,7 @@
         <activity android:name=".user.HotelListActivity" />
         <activity android:name=".user.SelectRoomActivity" />
         <activity android:name=".user.BookingCheckoutActivity" />
+        <activity android:name=".user.BookingDetailsActivity" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">

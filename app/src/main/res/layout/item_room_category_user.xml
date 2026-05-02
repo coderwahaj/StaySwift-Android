@@ -36,22 +36,49 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Available: 8"
+            android:text="Available: 8 / 10"
             android:textColor="@color/textSecondary"/>
+
+        <TextView
+            android:id="@+id/tvMeta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Bed • Guests • Size"
+            android:textColor="@color/textSecondary"
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/tvDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="8dp"
             android:text="Description"
             android:textColor="@color/textSecondary"/>
+
+        <TextView
+            android:id="@+id/tvAmenitiesTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Amenities"
+            android:textStyle="bold"
+            android:textColor="@color/textPrimary"/>
+
+        <TextView
+            android:id="@+id/tvAmenities"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Wi-Fi, TV, Breakfast..."
+            android:textColor="@color/textSecondary"
+            android:textSize="12sp"/>
 
         <Button
             android:id="@+id/btnSelect"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="12dp"
             android:text="Select"
             android:textAllCaps="false"
             android:background="@drawable/rounded_button"

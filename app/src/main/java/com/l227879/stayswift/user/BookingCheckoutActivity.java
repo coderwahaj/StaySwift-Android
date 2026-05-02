@@ -1,5 +1,6 @@
 package com.l227879.stayswift.user;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -21,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
+import com.l227879.stayswift.GuestHomeActivity;
 import com.l227879.stayswift.R;
 import com.l227879.stayswift.models.Booking;
 import com.l227879.stayswift.models.Hotel;
@@ -217,6 +219,11 @@ public class BookingCheckoutActivity extends AppCompatActivity {
                         .addOnSuccessListener(unused -> {
                             progress.setVisibility(android.view.View.GONE);
                             Toast.makeText(BookingCheckoutActivity.this, "Booking confirmed!", Toast.LENGTH_SHORT).show();
+
+                            Intent i = new Intent(BookingCheckoutActivity.this, GuestHomeActivity.class);
+                            i.putExtra(GuestHomeActivity.EXTRA_OPEN_TAB, GuestHomeActivity.TAB_BOOKINGS);
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(i);
                             finish();
                         })
                         .addOnFailureListener(e -> {

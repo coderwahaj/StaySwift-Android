@@ -73,7 +73,7 @@
                 android:text="Cancel Booking"
                 android:textAllCaps="false"
                 android:background="@drawable/outline_button_bg"
-                android:textColor="@color/primaryBlue" />
+                android:textColor="@color/backgroundWhite" />
 
         </LinearLayout>
 

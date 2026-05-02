@@ -17,6 +17,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class GuestHomeActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNav;
+    public static final String EXTRA_OPEN_TAB = "openTab";
+    public static final String TAB_HOME = "home";
+    public static final String TAB_BOOKINGS = "bookings";
+    public static final String TAB_FAV = "fav";
+    public static final String TAB_PROFILE = "profile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,18 @@ public class GuestHomeActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             switchTo(new HomeFragment());
             bottomNav.setSelectedItemId(R.id.nav_home);
+        }
+        String openTab = getIntent().getStringExtra(EXTRA_OPEN_TAB);
+        if (openTab != null) {
+            if (openTab.equals(TAB_BOOKINGS)) {
+                bottomNav.setSelectedItemId(R.id.nav_bookings);
+            } else if (openTab.equals(TAB_FAV)) {
+                bottomNav.setSelectedItemId(R.id.nav_favourites);
+            } else if (openTab.equals(TAB_PROFILE)) {
+                bottomNav.setSelectedItemId(R.id.nav_profile);
+            } else {
+                bottomNav.setSelectedItemId(R.id.nav_home);
+            }
         }
 
         bottomNav.setOnItemSelectedListener(item -> {

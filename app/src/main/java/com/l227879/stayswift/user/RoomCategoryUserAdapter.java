@@ -1,5 +1,6 @@
 package com.l227879.stayswift.user;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,11 +41,26 @@ public class RoomCategoryUserAdapter extends RecyclerView.Adapter<RoomCategoryUs
         RoomCategory r = data.get(position);
 
         h.tvCategory.setText(value(r.category));
+
         long price = (r.discountPrice > 0) ? r.discountPrice : r.basePrice;
         h.tvPrice.setText("Rs " + price + " / night");
 
-        h.tvAvail.setText("Available: " + r.availableRooms);
+        h.tvAvailability.setText("Available: " + r.availableRooms + " / " + r.totalRooms);
+
+        String meta =
+                "Bed: " + value(r.bedType) +
+                        "  •  Adults: " + r.maxAdults +
+                        "  •  Children: " + r.maxChildren +
+                        "  •  Size: " + r.sizeSqft + " sqft";
+        h.tvMeta.setText(meta);
+
         h.tvDesc.setText(value(r.description));
+
+        String amenities = "-";
+        if (r.amenities != null && !r.amenities.isEmpty()) {
+            amenities = TextUtils.join(", ", r.amenities);
+        }
+        h.tvAmenities.setText(amenities);
 
         boolean canSelect = r.isActive && r.availableRooms > 0;
         h.btnSelect.setEnabled(canSelect);
@@ -61,17 +77,22 @@ public class RoomCategoryUserAdapter extends RecyclerView.Adapter<RoomCategoryUs
     }
 
     static class VH extends RecyclerView.ViewHolder {
-        TextView tvCategory, tvPrice, tvAvail, tvDesc;
+        TextView tvCategory, tvPrice, tvAvailability, tvMeta, tvDesc, tvAmenities;
         Button btnSelect;
+
         VH(@NonNull View itemView) {
             super(itemView);
             tvCategory = itemView.findViewById(R.id.tvCategory);
             tvPrice = itemView.findViewById(R.id.tvPrice);
-            tvAvail = itemView.findViewById(R.id.tvAvailability);
+            tvAvailability = itemView.findViewById(R.id.tvAvailability);
+            tvMeta = itemView.findViewById(R.id.tvMeta);
             tvDesc = itemView.findViewById(R.id.tvDesc);
+            tvAmenities = itemView.findViewById(R.id.tvAmenities);
             btnSelect = itemView.findViewById(R.id.btnSelect);
         }
     }
 
-    private String value(String s) { return (s == null || s.trim().isEmpty()) ? "-" : s.trim(); }
+    private String value(String s) {
+        return (s == null || s.trim().isEmpty()) ? "-" : s.trim();
+    }
 }
