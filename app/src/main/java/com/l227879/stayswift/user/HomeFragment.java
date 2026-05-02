@@ -97,8 +97,7 @@ public class HomeFragment extends Fragment {
         tvEmpty = view.findViewById(R.id.tvHomeEmpty);
 
         view.findViewById(R.id.tvViewAllNearYou)
-                .setOnClickListener(v -> openHotelList("Hotel Near You", "near_you", null));
-
+                .setOnClickListener(v -> openNearYouList());
         view.findViewById(R.id.tvViewAllTop)
                 .setOnClickListener(v -> openHotelList("Highest Rated Hotels", "top_rated", null));
 
@@ -264,7 +263,20 @@ public class HomeFragment extends Fragment {
                     }
                 });
     }
+    private void openNearYouList() {
+        if (userLat == null || userLng == null) {
+            Toast.makeText(requireContext(), "Current location not available", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        Intent i = new Intent(requireContext(), HotelListActivity.class);
+        i.putExtra(HotelListActivity.EXTRA_TITLE, "Hotel Near You");
+        i.putExtra(HotelListActivity.EXTRA_MODE, "near_you");
+        i.putExtra(HotelListActivity.EXTRA_USER_LAT, userLat);
+        i.putExtra(HotelListActivity.EXTRA_USER_LNG, userLng);
+        i.putExtra(HotelListActivity.EXTRA_RADIUS_KM, NEARBY_RADIUS_KM);
+        startActivity(i);
+    }
     private void rebuildNearYouList() {
         nearYou.clear();
 
