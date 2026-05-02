@@ -22,14 +22,31 @@
             android:textSize="16sp"
             android:textColor="@color/textPrimary"/>
 
-        <TextView
-            android:id="@+id/tvPrice"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="Rs 7500 / night"
-            android:textStyle="bold"
-            android:textColor="@color/primaryBlue"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvBasePrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rs 8000"
+                android:textColor="@color/textSecondary"
+                android:textStyle="bold"
+                android:visibility="gone"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:id="@+id/tvFinalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rs 7000 / night"
+                android:textColor="@color/primaryBlue"
+                android:textStyle="bold"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvAvailability"

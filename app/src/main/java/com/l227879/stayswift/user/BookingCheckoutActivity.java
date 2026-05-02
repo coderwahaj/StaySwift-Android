@@ -75,14 +75,25 @@ public class BookingCheckoutActivity extends AppCompatActivity {
     }
 
     private void readExtrasOrFinish() {
-        hotelId = getIntent().getStringExtra("hotelId");
-        roomId = getIntent().getStringExtra("roomId");
-        roomCategory = getIntent().getStringExtra("roomCategory");
-        pricePerNight = getIntent().getLongExtra("pricePerNight", 0);
-        checkInMs = getIntent().getLongExtra("checkInMs", 0);
-        checkOutMs = getIntent().getLongExtra("checkOutMs", 0);
-        roomsCount = getIntent().getLongExtra("roomsCount", 1);
+        hotelId = getIntent().getStringExtra(BookingKeys.HOTEL_ID);
+        if (hotelId == null) hotelId = getIntent().getStringExtra("hotelId");
 
+        roomId = getIntent().getStringExtra(BookingKeys.ROOM_ID);
+        if (roomId == null) roomId = getIntent().getStringExtra("roomId");
+
+        roomCategory = getIntent().getStringExtra(BookingKeys.ROOM_CATEGORY);
+        if (roomCategory == null) roomCategory = getIntent().getStringExtra("roomCategory");
+
+        pricePerNight = getIntent().getLongExtra(BookingKeys.PRICE_PER_NIGHT,
+                getIntent().getLongExtra("pricePerNight", 0));
+
+        checkInMs = getIntent().getLongExtra(BookingKeys.CHECK_IN_MS,
+                getIntent().getLongExtra("checkInMs", 0));
+
+        checkOutMs = getIntent().getLongExtra(BookingKeys.CHECK_OUT_MS,
+                getIntent().getLongExtra("checkOutMs", 0));
+        roomsCount = getIntent().getIntExtra(BookingKeys.ROOMS_COUNT,
+                getIntent().getIntExtra("roomsCount", 1));
         if (TextUtils.isEmpty(hotelId) || TextUtils.isEmpty(roomId) ||
                 checkInMs <= 0 || checkOutMs <= 0 || pricePerNight <= 0 || roomsCount <= 0) {
             Toast.makeText(this, "Invalid booking data", Toast.LENGTH_SHORT).show();
@@ -91,6 +102,7 @@ public class BookingCheckoutActivity extends AppCompatActivity {
     }
 
     private void computeTotals() {
+        // With midnight-normalized dates, this becomes correct: 3->5 = 2 nights
         long diff = checkOutMs - checkInMs;
         nights = Math.max(1, TimeUnit.MILLISECONDS.toDays(diff));
         totalAmount = pricePerNight * nights * roomsCount;
@@ -108,7 +120,6 @@ public class BookingCheckoutActivity extends AppCompatActivity {
                         "\nTotal: Rs " + totalAmount
         );
 
-        // temporary placeholders until hotel loads
         tvHotelName.setText("Loading...");
         tvHotelAddress.setText("");
         ivHotel.setImageResource(android.R.color.darker_gray);
@@ -135,7 +146,6 @@ public class BookingCheckoutActivity extends AppCompatActivity {
                                     .into(ivHotel);
                         }
                     }
-
                     @Override public void onCancelled(@NonNull DatabaseError error) { }
                 });
     }
@@ -150,7 +160,6 @@ public class BookingCheckoutActivity extends AppCompatActivity {
         progress.setVisibility(android.view.View.VISIBLE);
         btnConfirm.setEnabled(false);
 
-        // 1) decrement availableRooms safely
         DatabaseReference availRef = FirebaseDatabase.getInstance().getReference("rooms")
                 .child(hotelId).child(roomId).child("availableRooms");
 
@@ -161,9 +170,7 @@ public class BookingCheckoutActivity extends AppCompatActivity {
                 Long current = currentData.getValue(Long.class);
                 if (current == null) current = 0L;
 
-                if (current < roomsCount) {
-                    return Transaction.abort();
-                }
+                if (current < roomsCount) return Transaction.abort();
 
                 currentData.setValue(current - roomsCount);
                 return Transaction.success(currentData);
@@ -187,7 +194,6 @@ public class BookingCheckoutActivity extends AppCompatActivity {
                     return;
                 }
 
-                // 2) save booking to bookings/{bookingId}
                 DatabaseReference bookingsRef = FirebaseDatabase.getInstance().getReference("bookings");
                 String bookingId = bookingsRef.push().getKey();
                 if (bookingId == null) {
