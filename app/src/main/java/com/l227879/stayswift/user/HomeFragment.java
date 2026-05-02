@@ -49,11 +49,13 @@ public class HomeFragment extends Fragment {
     private RecyclerView rvNearYou, rvCities, rvTopRated, rvSuggestions;
     private ProgressBar progress;
     private TextView tvEmpty;
-
+    // Change this line:
+// private final ArrayList<String> cities = new ArrayList<>();
+// To this:
+    private final ArrayList<com.l227879.stayswift.models.City> cities = new ArrayList<>();
     private final ArrayList<Hotel> allHotels = new ArrayList<>();
     private final ArrayList<Hotel> nearYou = new ArrayList<>();
     private final ArrayList<Hotel> topRated = new ArrayList<>();
-    private final ArrayList<String> cities = new ArrayList<>();
     private final ArrayList<Hotel> suggestions = new ArrayList<>();
 
     private final Map<String, Integer> minPriceByHotelId = new HashMap<>();
@@ -199,14 +201,15 @@ public class HomeFragment extends Fragment {
 
     private void loadFamousCities() {
         cities.clear();
-        cities.add("Lahore");
-        cities.add("Islamabad");
-        cities.add("Karachi");
-        cities.add("Multan");
-        cities.add("Faisalabad");
+        // Add City objects with their corresponding drawable resources
+        cities.add(new com.l227879.stayswift.models.City("Lahore", R.drawable.lahore));
+        cities.add(new com.l227879.stayswift.models.City("Islamabad", R.drawable.islamabad));
+        cities.add(new com.l227879.stayswift.models.City("Karachi", R.drawable.karachi));
+        cities.add(new com.l227879.stayswift.models.City("Multan", R.drawable.multan));
+        cities.add(new com.l227879.stayswift.models.City("Faisalabad", R.drawable.faisalabad));
+
         cityAdapter.notifyDataSetChanged();
     }
-
     // ------------------- load hotels -------------------
 
     private void loadHotels() {

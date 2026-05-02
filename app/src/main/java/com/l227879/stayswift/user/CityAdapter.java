@@ -5,12 +5,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.l227879.stayswift.R;
-
+import com.l227879.stayswift.models.City; // Import your City model
 import java.util.ArrayList;
 
 public class CityAdapter extends RecyclerView.Adapter<CityAdapter.VH> {
@@ -19,10 +17,11 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.VH> {
         void onCityClick(@NonNull String city);
     }
 
-    private final ArrayList<String> cities;
+    // CHANGE 1: Change ArrayList<String> to ArrayList<City>
+    private final ArrayList<City> cities;
     private final Listener listener;
 
-    public CityAdapter(ArrayList<String> cities, Listener listener) {
+    public CityAdapter(ArrayList<City> cities, Listener listener) {
         this.cities = cities;
         this.listener = listener;
     }
@@ -36,14 +35,16 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.VH> {
 
     @Override
     public void onBindViewHolder(@NonNull VH h, int position) {
-        String city = cities.get(position);
-        h.tvCity.setText(city);
+        // CHANGE 2: Get the City object
+        City cityObj = cities.get(position);
 
-        // simple placeholder background (later add real images per city)
-        h.ivCity.setImageResource(android.R.color.darker_gray);
+        h.tvCity.setText(cityObj.getName());
+
+        // CHANGE 3: Set the actual image from the model
+        h.ivCity.setImageResource(cityObj.getImageResId());
 
         h.itemView.setOnClickListener(v -> {
-            if (listener != null) listener.onCityClick(city);
+            if (listener != null) listener.onCityClick(cityObj.getName());
         });
     }
 

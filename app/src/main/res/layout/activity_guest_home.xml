@@ -2,20 +2,36 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/backgroundWhite">
 
     <FrameLayout
         android:id="@+id/guestFragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="64dp" />
+        android:layout_marginBottom="80dp" /> <com.google.android.material.card.MaterialCardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:layout_marginHorizontal="20dp"
+    android:layout_marginBottom="20dp"
+    app:cardCornerRadius="30dp"
+    app:cardElevation="12dp"
+    app:strokeWidth="0dp">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavGuest"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:menu="@menu/menu_guest_bottom_nav"
-        app:labelVisibilityMode="labeled" />
+        android:layout_height="72dp"
+        android:background="@android:color/white"
+        app:itemIconSize="22dp"
+        app:itemIconTint="@color/nav_item_color_state"
+        app:itemTextColor="@color/nav_item_color_state"
+        app:itemRippleColor="#1A2196F3"
+        app:itemActiveIndicatorStyle="@null"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/menu_guest_bottom_nav" />
+
+</com.google.android.material.card.MaterialCardView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
