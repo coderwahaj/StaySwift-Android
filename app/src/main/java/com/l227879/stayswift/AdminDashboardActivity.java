@@ -97,6 +97,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         styleButton(btnManageHotels, "Manage Hotels", "Add, edit or remove hotel listings");
         styleButton(btnManageRooms, "Manage Rooms", "Configure room types and availability");
         styleButton(btnViewBookings, "View Bookings", "Monitor and manage guest reservations");
+        styleButton(btnSupport, "Customer Support", "Resolve user tickets and queries");
     }
 
     private void styleButton(Button button, String title, String description) {

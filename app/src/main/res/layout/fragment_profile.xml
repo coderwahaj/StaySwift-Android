@@ -1,109 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F7FB"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="#F8FAFC">
 
-    <!-- Header -->
-    <LinearLayout
+    <View
+        android:id="@+id/headerBg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:padding="12dp"
-        android:background="@android:color/white"
-        android:elevation="2dp">
+        android:layout_height="220dp"
+        android:background="@drawable/bg_admin_header_mesh"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/menuCard"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="160dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="90dp"
+            android:paddingBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="24dp">
+
+                <TextView
+                    android:id="@+id/tvProfileName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-black"
+                    android:text="User Name"
+                    android:textColor="#111827"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/tvProfilePhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="+92 **********"
+                    android:textColor="@color/primaryBlue"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="12dp"
+                    android:fontFamily="sans-serif-black"
+                    android:text="ACCOUNT SETTINGS"
+                    android:textColor="#94A3B8"
+                    android:letterSpacing="0.1"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/itemProfile"
+                    style="@style/ProfileMenuItem"
+                    android:text="Personal Information"
+                    app:drawableStartCompat="@android:drawable/ic_menu_edit" />
+
+                <TextView
+                    android:id="@+id/itemNotifications"
+                    style="@style/ProfileMenuItem"
+                    android:text="Notification Preferences"
+                    app:drawableStartCompat="@android:drawable/ic_dialog_info" />
+
+                <View style="@style/Divider" android:layout_marginVertical="8dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="12dp"
+                    android:fontFamily="sans-serif-black"
+                    android:text="SUPPORT"
+                    android:textColor="#94A3B8"
+                    android:letterSpacing="0.1"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/itemSupport"
+                    style="@style/ProfileMenuItem"
+                    android:text="Help Center &amp; Support"
+                    app:drawableStartCompat="@android:drawable/ic_dialog_email" />
+
+                <View style="@style/Divider" android:layout_marginVertical="8dp"/>
+
+                <TextView
+                    android:id="@+id/itemLogout"
+                    style="@style/ProfileMenuItem"
+                    android:layout_marginTop="16dp"
+                    android:text="Sign Out"
+                    android:textColor="#EF4444"
+                    app:drawableStartCompat="@android:drawable/ic_lock_power_off"
+                    app:drawableTint="#EF4444" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/avatarCard"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        app:cardCornerRadius="55dp"
+        app:cardElevation="12dp"
+        app:layout_constraintBottom_toTopOf="@id/menuCard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/menuCard"
+        app:strokeColor="@android:color/white"
+        app:strokeWidth="4dp">
 
         <ImageView
             android:id="@+id/ivProfileAvatar"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:src="@drawable/ic_profile_avatar"
-            android:background="@drawable/circle_avatar_bg"
-            android:padding="8dp"/>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingStart="12dp">
-
-            <TextView
-                android:id="@+id/tvProfileName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="User Name"
-                android:textStyle="bold"
-                android:textColor="#111827"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tvProfilePhone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+92 **********"
-                android:textColor="#2563EB"
-                android:textSize="12sp" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- Menu -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="16dp">
-
-        <TextView
-            android:id="@+id/itemProfile"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:drawablePadding="12dp"
-            android:text="Profile"
-            android:textColor="#111827"
-            android:textSize="14sp"
-            app:drawableStartCompat="@android:drawable/ic_menu_edit" />
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_profile_avatar" />
+    </com.google.android.material.card.MaterialCardView>
 
-        <TextView
-            android:id="@+id/itemNotifications"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:drawablePadding="12dp"
-            android:text="Notifications"
-            android:textColor="#111827"
-            android:textSize="14sp"
-            app:drawableStartCompat="@android:drawable/ic_dialog_info" />
-
-        <TextView
-            android:id="@+id/itemSupport"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:drawablePadding="12dp"
-            android:text="Customer Support"
-            android:textColor="#111827"
-            android:textSize="14sp"
-            app:drawableStartCompat="@android:drawable/ic_dialog_email" />
-
-        <TextView
-            android:id="@+id/itemLogout"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:drawablePadding="12dp"
-            android:text="Logout"
-            android:textColor="#EF4444"
-            android:textSize="14sp"
-            app:drawableStartCompat="@android:drawable/ic_lock_power_off" />
-    </LinearLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
