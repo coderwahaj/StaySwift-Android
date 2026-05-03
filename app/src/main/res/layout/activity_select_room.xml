@@ -1,176 +1,251 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/backgroundWhite"
-    android:padding="14dp">
+    android:background="@color/backgroundWhite">
+
+    <View
+        android:id="@+id/headerVisualBg"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:background="@drawable/gradient_header"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvTitleSelectRoom"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
         android:text="Select Room"
-        android:textSize="20sp"
+        android:textColor="@android:color/white"
+        android:textSize="26sp"
         android:textStyle="bold"
-        android:textColor="@color/textPrimary" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Dates row -->
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tvSubtitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Choose your stay dates and preferences"
+        android:textColor="#CCFFFFFF"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/tvTitleSelectRoom"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleSelectRoom" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginTop="12dp"
-        android:orientation="horizontal">
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardCheckIn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginEnd="8dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="2dp"
-            app:strokeWidth="1dp"
-            app:strokeColor="#E6E6E6">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="12dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Check-in"
-                    android:textSize="12sp"
-                    android:textColor="@color/textSecondary" />
-
-                <TextView
-                    android:id="@+id/tvCheckIn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Select"
-                    android:textStyle="bold"
-                    android:textColor="@color/textPrimary" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardCheckOut"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="2dp"
-            app:strokeWidth="1dp"
-            app:strokeColor="#E6E6E6">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="12dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Check-out"
-                    android:textSize="12sp"
-                    android:textColor="@color/textSecondary" />
-
-                <TextView
-                    android:id="@+id/tvCheckOut"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Select"
-                    android:textStyle="bold"
-                    android:textColor="@color/textPrimary" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-    </LinearLayout>
-
-    <!-- Rooms count -->
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:cardCornerRadius="14dp"
-        app:cardElevation="2dp"
-        app:strokeWidth="1dp"
-        app:strokeColor="#E6E6E6">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerVisualBg">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="12dp">
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardCheckIn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@android:drawable/ic_menu_my_calendar"
+                            app:tint="@color/primaryBlue" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Check-in"
+                                android:textColor="@color/textSecondary"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/tvCheckIn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Select"
+                                android:textColor="@color/textPrimary"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardCheckOut"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@android:drawable/ic_menu_my_calendar"
+                            app:tint="@color/primaryBlue" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Check-out"
+                                android:textColor="@color/textSecondary"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/tvCheckOut"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Select"
+                                android:textColor="@color/textPrimary"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="14dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@android:drawable/ic_menu_sort_by_size"
+                        app:tint="@color/primaryBlue" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:text="Number of Rooms"
+                        android:textColor="@color/textPrimary"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnMinusRoom"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:padding="0dp"
+                        android:text="—"
+                        android:textColor="@color/primaryBlue"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="#F2F2F2"
+                        app:cornerRadius="20dp" />
+
+                    <TextView
+                        android:id="@+id/tvRoomsCount"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnPlusRoom"
+                        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:padding="0dp"
+                        android:text="+"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        app:backgroundTint="@color/primaryBlue"
+                        app:cornerRadius="20dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <ProgressBar
+                android:id="@+id/progressRooms"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:indeterminateTint="@color/primaryBlue"
+                android:visibility="gone" />
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/tvRoomsEmpty"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Rooms"
-                android:textStyle="bold"
-                android:textColor="@color/textPrimary" />
-
-            <Button
-                android:id="@+id/btnMinusRoom"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:text="-" />
-
-            <TextView
-                android:id="@+id/tvRoomsCount"
-                android:layout_width="48dp"
-                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
-                android:text="1"
-                android:textStyle="bold"
-                android:textColor="@color/textPrimary" />
+                android:text="No room categories available"
+                android:textColor="@color/textSecondary"
+                android:visibility="gone" />
 
-            <Button
-                android:id="@+id/btnPlusRoom"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:text="+" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRoomCategoriesUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:nestedScrollingEnabled="false" />
+
         </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-    </com.google.android.material.card.MaterialCardView>
-
-    <ProgressBar
-        android:id="@+id/progressRooms"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/tvRoomsEmpty"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="No room categories available"
-        android:textColor="@color/textSecondary"
-        android:gravity="center"
-        android:layout_marginTop="12dp"
-        android:visibility="gone" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvRoomCategoriesUser"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="12dp" />
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
