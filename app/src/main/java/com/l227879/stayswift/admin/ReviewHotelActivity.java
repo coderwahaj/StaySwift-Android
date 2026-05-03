@@ -3,7 +3,10 @@ package com.l227879.stayswift.admin;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -96,22 +99,54 @@ public class ReviewHotelActivity extends AppCompatActivity {
         if (hotelPhotoUris == null) hotelPhotoUris = new ArrayList<>();
         if (existingPhotoUrls == null) existingPhotoUrls = new ArrayList<>();
     }
-
+    private CharSequence boldLabel(String label, String value) {
+        SpannableStringBuilder ssb = new SpannableStringBuilder();
+        int start = ssb.length();
+        ssb.append(label);
+        ssb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD),
+                start, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ssb.append(" ").append(value == null ? "-" : value);
+        return ssb;
+    }
     private void showData() {
-        tvPreviewBasic.setText("Name: " + value(hotelName) + "\n"
-                + "Description: " + value(hotelDescription) + "\n"
-                + "Phone: " + value(hotelPhone) + "\n"
-                + "Email: " + value(hotelEmail));
+        SpannableStringBuilder basic = new SpannableStringBuilder();
+        basic.append(boldLabel("Name:", value(hotelName))).append("\n");
+        basic.append(boldLabel("Description:", value(hotelDescription))).append("\n");
+        basic.append(boldLabel("Phone:", value(hotelPhone))).append("\n");
+        basic.append(boldLabel("Email:", value(hotelEmail)));
 
-        tvPreviewLocation.setText("Address: " + value(hotelAddress) + "\n"
-                + "Coordinates: " + hotelLat + ", " + hotelLng);
+        tvPreviewBasic.setText(basic);
+
+        SpannableStringBuilder location = new SpannableStringBuilder();
+        location.append(boldLabel("Address:", value(hotelAddress))).append("\n");
+        location.append(boldLabel("Coordinates:", hotelLat + ", " + hotelLng));
+
+        tvPreviewLocation.setText(location);
 
         String amenitiesText = hotelAmenities.isEmpty() ? "None selected" : TextUtils.join(", ", hotelAmenities);
         if (!TextUtils.isEmpty(hotelOtherAmenities)) {
             amenitiesText += "\nOther: " + hotelOtherAmenities;
         }
-        tvPreviewAmenities.setText(amenitiesText);
+
+        SpannableStringBuilder amen = new SpannableStringBuilder();
+        amen.append(boldLabel("Amenities:", amenitiesText));
+        tvPreviewAmenities.setText(amen);
     }
+//    private void showData() {
+//        tvPreviewBasic.setText("Name: " + value(hotelName) + "\n"
+//                + "Description: " + value(hotelDescription) + "\n"
+//                + "Phone: " + value(hotelPhone) + "\n"
+//                + "Email: " + value(hotelEmail));
+//
+//        tvPreviewLocation.setText("Address: " + value(hotelAddress) + "\n"
+//                + "Coordinates: " + hotelLat + ", " + hotelLng);
+//
+//        String amenitiesText = hotelAmenities.isEmpty() ? "None selected" : TextUtils.join(", ", hotelAmenities);
+//        if (!TextUtils.isEmpty(hotelOtherAmenities)) {
+//            amenitiesText += "\nOther: " + hotelOtherAmenities;
+//        }
+//        tvPreviewAmenities.setText(amenitiesText);
+//    }
 
     private void setupPhotos() {
         rvPreviewPhotos.setLayoutManager(new GridLayoutManager(this, 2));
