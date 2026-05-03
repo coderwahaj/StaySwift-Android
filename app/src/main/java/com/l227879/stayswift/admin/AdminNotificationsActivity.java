@@ -15,55 +15,68 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.l227879.stayswift.R;
-import com.l227879.stayswift.models.NotificationItem;
-import com.l227879.stayswift.user.NotificationsAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Map;
 
 public class AdminNotificationsActivity extends AppCompatActivity {
 
     private RecyclerView rv;
     private ProgressBar progress;
     private TextView tvEmpty;
-    private final ArrayList<NotificationItem> list = new ArrayList<>();
-    private NotificationsAdapter adapter;
+
+    private final ArrayList<Map<String, Object>> data = new ArrayList<>();
+    private AdminNotificationsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_notifications);
+        setContentView(R.layout.activity_admin_notifications);
 
-        rv = findViewById(R.id.rvUserNotifs);
-        progress = findViewById(R.id.progressUserNotifs);
-        tvEmpty = findViewById(R.id.tvEmptyUserNotifs);
+        rv = findViewById(R.id.rvAdminNotifs);
+        progress = findViewById(R.id.progressAdminNotifs);
+        tvEmpty = findViewById(R.id.tvEmptyAdminNotifs);
 
         rv.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new NotificationsAdapter(list);
+        adapter = new AdminNotificationsAdapter(data);
         rv.setAdapter(adapter);
 
-        loadNotifs();
+        loadNotifications();
     }
 
-    private void loadNotifs() {
+    private void loadNotifications() {
         progress.setVisibility(View.VISIBLE);
+        tvEmpty.setVisibility(View.GONE);
 
         FirebaseDatabase.getInstance().getReference("admin_notifications")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override public void onDataChange(@NonNull DataSnapshot snapshot) {
                         progress.setVisibility(View.GONE);
-                        list.clear();
+                        data.clear();
+
                         for (DataSnapshot s : snapshot.getChildren()) {
-                            NotificationItem n = s.getValue(NotificationItem.class);
-                            if (n != null) list.add(n);
+                            Object val = s.getValue();
+                            if (val instanceof Map) {
+                                //noinspection unchecked
+                                data.add((Map<String, Object>) val);
+                            }
                         }
-                        Collections.sort(list, (a, b) -> Long.compare(b.createdAt, a.createdAt));
+
+                        Collections.sort(data, (a, b) -> {
+                            long ta = a.get("createdAt") == null ? 0 : (long) a.get("createdAt");
+                            long tb = b.get("createdAt") == null ? 0 : (long) b.get("createdAt");
+                            return Long.compare(tb, ta);
+                        });
+
                         adapter.notifyDataSetChanged();
-                        tvEmpty.setVisibility(list.isEmpty() ? View.VISIBLE : View.GONE);
+                        tvEmpty.setVisibility(data.isEmpty() ? View.VISIBLE : View.GONE);
                     }
 
                     @Override public void onCancelled(@NonNull DatabaseError error) {
                         progress.setVisibility(View.GONE);
+                        tvEmpty.setVisibility(View.VISIBLE);
+                        tvEmpty.setText(error.getMessage());
                     }
                 });
     }

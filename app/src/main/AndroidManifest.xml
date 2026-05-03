@@ -55,6 +55,8 @@
         <activity android:name=".ProfileEditActivity" />
         <activity android:name=".CustomerSupportActivity" />
         <activity android:name=".admin.AdminSupportActivity" />
+        <activity android:name=".user.UserNotificationsActivity" />
+        <activity android:name=".admin.AdminNotificationsActivity" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">

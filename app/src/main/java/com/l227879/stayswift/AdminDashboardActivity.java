@@ -29,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.l227879.stayswift.admin.AdminNotificationsActivity;
 import com.l227879.stayswift.admin.ManageRoomsActivity;
 
 public class AdminDashboardActivity extends AppCompatActivity {
@@ -146,6 +147,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
         fabAddHotel.setOnClickListener(v ->
                 startActivity(new Intent(this, com.l227879.stayswift.admin.CreateHotelBasicInfoActivity.class)));
+        findViewById(R.id.ivAdminNotifications).setOnClickListener(v ->
+                startActivity(new Intent(this, AdminNotificationsActivity.class)));
     }
 
     private void loadDashboardStats() {

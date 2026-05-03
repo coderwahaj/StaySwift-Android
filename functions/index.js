@@ -4,30 +4,32 @@ const {onValueCreated} = require("firebase-functions/v2/database");
 admin.initializeApp();
 
 exports.userNotification = onValueCreated(
-    "/notifications/{uid}/{notifId}",
-    (event) => {
-      const uid = event.params.uid;
-      const data = event.data.val();
+  "/notifications/{uid}/{notifId}",
+  async (event) => {
+    const uid = event.params.uid;
+    const data = event.data.val();
 
-      return admin.messaging().sendToTopic("user_" + uid, {
-        notification: {
-          title: data.title,
-          body: data.message,
-        },
-      });
-    },
+    return admin.messaging().send({
+      topic: `user_${uid}`,
+      notification: {
+        title: data.title || "StaySwift",
+        body: data.message || "",
+      },
+    });
+  },
 );
 
 exports.adminNotification = onValueCreated(
-    "/admin_notifications/{notifId}",
-    (event) => {
-      const data = event.data.val();
+  "/admin_notifications/{notifId}",
+  async (event) => {
+    const data = event.data.val();
 
-      return admin.messaging().sendToTopic("admin", {
-        notification: {
-          title: data.title,
-          body: data.message,
-        },
-      });
-    },
+    return admin.messaging().send({
+      topic: "admin",
+      notification: {
+        title: data.title || "StaySwift",
+        body: data.message || "",
+      },
+    });
+  },
 );

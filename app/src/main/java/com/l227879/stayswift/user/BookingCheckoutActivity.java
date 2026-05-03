@@ -295,7 +295,7 @@ public class BookingCheckoutActivity extends AppCompatActivity {
 
     private long nights = 1;
     private long totalAmount = 0;
-
+    private String hotelName = "";
     private final SimpleDateFormat df = new SimpleDateFormat("dd MMM, yyyy", Locale.getDefault());
 
     @Override
@@ -383,7 +383,8 @@ public class BookingCheckoutActivity extends AppCompatActivity {
 
                         tvHotelName.setText(value(h.name));
                         tvHotelAddress.setText(value(h.address));
-
+                        hotelName = value(h.name);
+                        tvHotelName.setText(hotelName);
                         String first = null;
                         if (h.photoUrls != null && !h.photoUrls.isEmpty()) first = h.photoUrls.get(0);
 
@@ -493,37 +494,72 @@ public class BookingCheckoutActivity extends AppCompatActivity {
         });
     }
 
-    private void pushBookingNotification(@NonNull String uid, @NonNull Booking b) {
-        DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+//    private void pushBookingNotification(@NonNull String uid, @NonNull Booking b) {
+//        DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+//
+//        // user notifications
+//        String userNotifId = root.child("notifications").child(uid).push().getKey();
+//        if (userNotifId != null) {
+//            Map<String, Object> payload = new HashMap<>();
+//            payload.put("title", "Booking Confirmed");
+//            payload.put("message", "Your booking is confirmed. Total: Rs " + b.totalAmount);
+//            payload.put("type", "booking_confirmed");
+//            payload.put("bookingId", b.bookingId);
+//            payload.put("hotelId", b.hotelId);
+//            payload.put("createdAt", System.currentTimeMillis());
+//            root.child("notifications").child(uid).child(userNotifId).setValue(payload);
+//        }
+//
+//        // admin notifications
+//        String adminNotifId = root.child("admin_notifications").push().getKey();
+//        if (adminNotifId != null) {
+//            Map<String, Object> payload = new HashMap<>();
+//            payload.put("title", "New Booking");
+//            payload.put("message", "A user created a booking. BookingId: " + b.bookingId);
+//            payload.put("type", "booking_created");
+//            payload.put("bookingId", b.bookingId);
+//            payload.put("hotelId", b.hotelId);
+//            payload.put("userId", uid);
+//            payload.put("createdAt", System.currentTimeMillis());
+//            root.child("admin_notifications").child(adminNotifId).setValue(payload);
+//        }
+//    }
+private void pushBookingNotification(@NonNull String uid, @NonNull Booking b) {
+    DatabaseReference root = FirebaseDatabase.getInstance().getReference();
 
-        // user notifications
-        String userNotifId = root.child("notifications").child(uid).push().getKey();
-        if (userNotifId != null) {
-            Map<String, Object> payload = new HashMap<>();
-            payload.put("title", "Booking Confirmed");
-            payload.put("message", "Your booking is confirmed. Total: Rs " + b.totalAmount);
-            payload.put("type", "booking_confirmed");
-            payload.put("bookingId", b.bookingId);
-            payload.put("hotelId", b.hotelId);
-            payload.put("createdAt", System.currentTimeMillis());
-            root.child("notifications").child(uid).child(userNotifId).setValue(payload);
-        }
+    String checkIn = df.format(new Date(b.checkInMs));
+    String checkOut = df.format(new Date(b.checkOutMs));
 
-        // admin notifications
-        String adminNotifId = root.child("admin_notifications").push().getKey();
-        if (adminNotifId != null) {
-            Map<String, Object> payload = new HashMap<>();
-            payload.put("title", "New Booking");
-            payload.put("message", "A user created a booking. BookingId: " + b.bookingId);
-            payload.put("type", "booking_created");
-            payload.put("bookingId", b.bookingId);
-            payload.put("hotelId", b.hotelId);
-            payload.put("userId", uid);
-            payload.put("createdAt", System.currentTimeMillis());
-            root.child("admin_notifications").child(adminNotifId).setValue(payload);
-        }
+    String msg = "Hotel: " + hotelName +
+            "\nCheck-in: " + checkIn +
+            "\nCheck-out: " + checkOut +
+            "\nTotal: Rs " + b.totalAmount;
+
+    String userNotifId = root.child("notifications").child(uid).push().getKey();
+    if (userNotifId != null) {
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("title", "Booking Confirmed");
+        payload.put("message", msg);
+        payload.put("type", "booking_confirmed");
+        payload.put("bookingId", b.bookingId);
+        payload.put("hotelId", b.hotelId);
+        payload.put("createdAt", System.currentTimeMillis());
+        root.child("notifications").child(uid).child(userNotifId).setValue(payload);
     }
 
+    String adminNotifId = root.child("admin_notifications").push().getKey();
+    if (adminNotifId != null) {
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("title", "New Booking");
+        payload.put("message", msg);
+        payload.put("type", "booking_created");
+        payload.put("bookingId", b.bookingId);
+        payload.put("hotelId", b.hotelId);
+        payload.put("userId", uid);
+        payload.put("createdAt", System.currentTimeMillis());
+        root.child("admin_notifications").child(adminNotifId).setValue(payload);
+    }
+}
     private String value(String s) {
         return (s == null || s.trim().isEmpty()) ? "-" : s.trim();
     }
