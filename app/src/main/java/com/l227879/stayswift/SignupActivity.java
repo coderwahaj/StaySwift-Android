@@ -80,8 +80,7 @@ public class SignupActivity extends AppCompatActivity {
                     }
 
                     String uid = firebaseUser.getUid();
-                    User user = new User(name, email, "guest", System.currentTimeMillis());
-
+                    User user = new User(name, email, "guest", "-", System.currentTimeMillis());
                     usersRef.child(uid).setValue(user).addOnCompleteListener(saveTask -> {
                         progressBar.setVisibility(View.GONE);
                         if (saveTask.isSuccessful()) {

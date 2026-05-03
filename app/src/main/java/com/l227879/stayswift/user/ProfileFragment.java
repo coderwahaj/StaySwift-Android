@@ -12,7 +12,9 @@ import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.l227879.stayswift.CustomerSupportActivity;
 import com.l227879.stayswift.LoginActivity;
+import com.l227879.stayswift.ProfileEditActivity;
 import com.l227879.stayswift.R;
 
 public class ProfileFragment extends Fragment {

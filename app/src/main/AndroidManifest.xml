@@ -52,6 +52,8 @@
         <activity android:name=".user.BookingCheckoutActivity" />
         <activity android:name=".user.BookingDetailsActivity" />
         <activity android:name=".admin.AdminBookingsActivity" />
+        <activity android:name=".ProfileEditActivity" />
+        <activity android:name=".CustomerSupportActivity" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">
