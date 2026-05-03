@@ -80,8 +80,8 @@
                     android:background="@drawable/bg_white_alpha_badge"
                     android:contentDescription="Notifications"
                     android:src="@android:drawable/ic_popup_reminder"
-                    android:tint="@android:color/white"
-                    android:padding="10dp" />
+                    android:padding="10dp"
+                    app:tint="@android:color/white" />
             </LinearLayout>
 
             <TextView

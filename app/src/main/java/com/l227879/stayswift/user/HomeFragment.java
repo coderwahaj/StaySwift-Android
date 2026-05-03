@@ -105,7 +105,9 @@ public class HomeFragment extends Fragment {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
         askLocationPermissionAutomatically();
-
+        view.findViewById(R.id.btnNotifications)
+                .setOnClickListener(v ->
+                        startActivity(new Intent(requireContext(), UserNotificationsActivity.class)));
         // LayoutManagers
         rvNearYou.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         rvTopRated.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
