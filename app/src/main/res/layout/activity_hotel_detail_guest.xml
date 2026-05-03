@@ -97,6 +97,34 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
 
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                                android:id="@+id/btnShareHotel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="12dp"
+                                app:backgroundTint="@android:color/white"
+                                app:fabSize="mini"
+                                app:srcCompat="@android:drawable/ic_menu_share"
+                                app:tint="#475569" />
+
+                            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                                android:id="@+id/btnFavoriteHotel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:backgroundTint="@android:color/white"
+                                app:fabSize="mini"
+                                app:srcCompat="@drawable/ic_outline_favorite_border_24"
+                                app:tint="#E11D48" />
+                        </LinearLayout>
+
                         <ProgressBar
                             android:id="@+id/progressGuestHotelDetail"
                             android:layout_width="40dp"
@@ -235,40 +263,114 @@
                         android:orientation="vertical"
                         android:padding="20dp">
 
-                    <TextView
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="12dp">
+                            <ImageView
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:background="@drawable/bg_icon_blue_light"
+                                android:padding="8dp"
+                                android:src="@android:drawable/star_on"
+                                app:tint="@color/primaryBlue" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:fontFamily="sans-serif-black"
+                                android:text="Amenities &amp; Features"
+                                android:textColor="#1E293B"
+                                android:textSize="17sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvHotelAmenitiesGuest"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="12dp"
+                            android:fontFamily="sans-serif-medium"
+                            android:lineSpacingExtra="4dp"
+                            android:textColor="#475569"
+                            app:drawableStartCompat="@android:drawable/btn_star_big_on"
+                            app:drawableTint="#F59E0B" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="2dp"
+                    app:strokeColor="#F1F5F9"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-bold"
-                        android:textAllCaps="true"
-                        android:letterSpacing="0.1"
-                        android:text="Amenities"
-                        android:textColor="@color/primaryBlue"
-                        android:textSize="12sp" />
+                        android:orientation="vertical"
+                        android:padding="20dp">
 
-                    <TextView
-                        android:id="@+id/tvHotelAmenitiesGuest"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:fontFamily="sans-serif-medium"
-                        android:textColor="#475569"
-                        android:lineSpacingExtra="4dp"
-                        app:drawableStartCompat="@android:drawable/btn_star_big_on"
-                        android:drawablePadding="12dp"
-                        app:drawableTint="#F59E0B"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="12dp">
+                            <ImageView
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:background="@drawable/bg_icon_blue_light"
+                                android:padding="8dp"
+                                android:src="@android:drawable/ic_dialog_email"
+                                app:tint="@color/primaryBlue" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:fontFamily="sans-serif-black"
+                                android:text="Contact Information"
+                                android:textColor="#1E293B"
+                                android:textSize="17sp" />
+                        </LinearLayout>
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="2dp"
-                app:strokeColor="#E2E8F0"
-                app:strokeWidth="1dp">
+                        <TextView
+                            android:id="@+id/tvHotelContactEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Email: -"
+                            android:textColor="@color/primaryBlue"
+                            android:textSize="14sp"
+                            android:drawablePadding="10dp"
+                            app:drawableStartCompat="@android:drawable/ic_dialog_email"
+                            app:drawableTint="@color/primaryBlue" />
+
+                        <TextView
+                            android:id="@+id/tvHotelContactPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Phone: -"
+                            android:textColor="@color/primaryBlue"
+                            android:textSize="14sp"
+                            android:drawablePadding="10dp"
+                            app:drawableStartCompat="@android:drawable/ic_menu_call"
+                            app:drawableTint="@color/primaryBlue" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="2dp"
+                    app:strokeColor="#F1F5F9"
+                    app:strokeWidth="1dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
