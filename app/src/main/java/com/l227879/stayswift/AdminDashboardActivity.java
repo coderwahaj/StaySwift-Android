@@ -130,8 +130,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 startActivity(new Intent(this, ManageRoomsActivity.class)));
 
         btnViewBookings.setOnClickListener(v ->
-                Toast.makeText(this, "Booking management coming soon!", Toast.LENGTH_SHORT).show());
-
+                startActivity(new Intent(this, com.l227879.stayswift.admin.AdminBookingsActivity.class)));
         btnLogout.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
             Intent i = new Intent(this, LoginActivity.class);
