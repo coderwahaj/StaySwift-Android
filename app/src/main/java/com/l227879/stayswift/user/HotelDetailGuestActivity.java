@@ -36,7 +36,11 @@ public class HotelDetailGuestActivity extends AppCompatActivity {
     private String hotelId;
     private Hotel hotel;
     private TextView tvFromPriceGuest;
+    private TextView tvHotelEmail, tvHotelPhone;
+    // Add fields at class level
 
+    private String contactEmail = "-";
+    private String contactPhone = "-";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +56,14 @@ public class HotelDetailGuestActivity extends AppCompatActivity {
         progress = findViewById(R.id.progressGuestHotelDetail);
         tvAmenities = findViewById(R.id.tvHotelAmenitiesGuest);
         tvFromPriceGuest = findViewById(R.id.tvFromPriceGuest);
+        tvHotelEmail = findViewById(R.id.tvHotelContactEmail);
+        tvHotelPhone = findViewById(R.id.tvHotelContactPhone);
 
+        tvHotelEmail.setPaintFlags(tvHotelEmail.getPaintFlags() | android.graphics.Paint.UNDERLINE_TEXT_FLAG);
+        tvHotelPhone.setPaintFlags(tvHotelPhone.getPaintFlags() | android.graphics.Paint.UNDERLINE_TEXT_FLAG);
+
+        tvHotelEmail.setOnClickListener(v -> openEmail());
+        tvHotelPhone.setOnClickListener(v -> openDialer());
         hotelId = getIntent().getStringExtra("hotelId");
         if (TextUtils.isEmpty(hotelId)) {
             Toast.makeText(this, "Invalid hotel", Toast.LENGTH_SHORT).show();
@@ -68,6 +79,25 @@ public class HotelDetailGuestActivity extends AppCompatActivity {
         });
 
         loadHotel();
+    }
+    // Add these methods at bottom
+    private void openDialer() {
+        if (contactPhone == null || contactPhone.equals("-")) {
+            Toast.makeText(this, "Phone not available", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + contactPhone));
+        startActivity(intent);
+    }
+
+    private void openEmail() {
+        if (contactEmail == null || contactEmail.equals("-")) {
+            Toast.makeText(this, "Email not available", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:" + contactEmail));
+        startActivity(intent);
     }
     private void loadMinPrice(@NonNull String hotelId) {
         tvFromPriceGuest.setText("From -");
@@ -136,7 +166,11 @@ public class HotelDetailGuestActivity extends AppCompatActivity {
         String am = (h.amenities == null || h.amenities.isEmpty()) ? "-" : android.text.TextUtils.join(", ", h.amenities);
         if (!TextUtils.isEmpty(h.otherAmenities)) am += "\nOther: " + h.otherAmenities;
         tvAmenities.setText(am);
+        contactEmail = value(h.email);
+        contactPhone = value(h.phone);
 
+        tvHotelEmail.setText("Email: " + contactEmail);
+        tvHotelPhone.setText("Phone: " + contactPhone);
         ArrayList<String> urls = (h.photoUrls == null) ? new ArrayList<>() : h.photoUrls;
         if (urls.isEmpty()) urls.add("");
 
