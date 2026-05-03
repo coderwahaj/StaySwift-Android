@@ -201,6 +201,11 @@
                     app:iconTint="#F59E0B"
                     app:strokeColor="#E2E8F0"
                     app:strokeWidth="1dp" />
+                <Button
+                    android:id="@+id/btnSupport"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Customer Support" />
 
                 <ProgressBar
                     android:id="@+id/progressBar"

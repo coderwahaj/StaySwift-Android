@@ -40,6 +40,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private Button btnManageHotels, btnManageRooms, btnViewBookings, btnLogout;
     private com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton fabAddHotel;
     private DatabaseReference rootRef;
+    private Button btnSupport;
     private int completedCalls = 0;
 
     @Override
@@ -89,6 +90,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         btnViewBookings = findViewById(R.id.btnViewBookings);
         btnLogout = findViewById(R.id.btnLogout);
         fabAddHotel = findViewById(R.id.fabAddHotel);
+        btnSupport = findViewById(R.id.btnSupport);
     }
 
     private void applyButtonStyles() {
@@ -131,6 +133,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
         btnViewBookings.setOnClickListener(v ->
                 startActivity(new Intent(this, com.l227879.stayswift.admin.AdminBookingsActivity.class)));
+        btnSupport.setOnClickListener(v ->
+                startActivity(new Intent(this, com.l227879.stayswift.admin.AdminSupportActivity.class)));
         btnLogout.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
             Intent i = new Intent(this, LoginActivity.class);
