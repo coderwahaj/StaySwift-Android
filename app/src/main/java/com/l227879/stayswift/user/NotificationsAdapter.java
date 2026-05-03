@@ -26,27 +26,40 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     }
 
     @NonNull
-    @Override public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_notification, parent, false);
+    @Override
+    public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Inflates the beautified item layout
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user_notification, parent, false);
         return new VH(v);
     }
 
-    @Override public void onBindViewHolder(@NonNull VH h, int position) {
+    @Override
+    public void onBindViewHolder(@NonNull VH h, int position) {
         NotificationItem n = data.get(position);
-        h.title.setText(n.title);
-        h.message.setText(n.message);
+
+        // Safety checks for null values
+        h.title.setText(n.title != null ? n.title : "Update");
+        h.message.setText(n.message != null ? n.message : "");
+
+        // Format the timestamp using your existing SimpleDateFormat
         h.time.setText(df.format(new Date(n.createdAt)));
     }
 
-    @Override public int getItemCount() { return data.size(); }
+    @Override
+    public int getItemCount() {
+        return data == null ? 0 : data.size();
+    }
 
     static class VH extends RecyclerView.ViewHolder {
+        // Updated variables to match the beautified layout IDs
         TextView title, message, time;
+
         VH(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.tvNotifTitle);
-            message = itemView.findViewById(R.id.tvNotifMessage);
-            time = itemView.findViewById(R.id.tvNotifTime);
+            // Strictly using the IDs from item_user_notification.xml
+            title = itemView.findViewById(R.id.tvUserNotifTitle);
+            message = itemView.findViewById(R.id.tvUserNotifMessage);
+            time = itemView.findViewById(R.id.tvUserNotifTime);
         }
     }
 }
