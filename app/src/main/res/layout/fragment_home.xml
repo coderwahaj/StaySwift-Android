@@ -4,7 +4,8 @@
     android:id="@+id/homeScroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundWhite">
+    android:background="@color/backgroundWhite"
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -13,15 +14,16 @@
         <View
             android:id="@+id/headerVisualBg"
             android:layout_width="match_parent"
-            android:layout_height="230dp"
-            android:background="@drawable/gradient_header"
+            android:layout_height="300dp"
+            android:background="@drawable/bg_admin_header_mesh"
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="52dp"
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
@@ -41,9 +43,10 @@
                         android:layout_height="wrap_content"
                         android:text="Current Location"
                         android:textColor="#CCFFFFFF"
-                        android:textSize="11sp"
+                        android:textSize="10sp"
                         android:textAllCaps="true"
-                        android:letterSpacing="0.05" />
+                        android:fontFamily="sans-serif-black"
+                        android:letterSpacing="0.1" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -53,10 +56,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
                             android:src="@android:drawable/ic_menu_mylocation"
-                            android:tint="@android:color/white" />
+                            app:tint="@android:color/white" />
 
                         <TextView
                             android:id="@+id/tvLocation"
@@ -66,7 +69,7 @@
                             android:text="Detecting..."
                             android:textColor="@android:color/white"
                             android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:fontFamily="sans-serif-medium" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -74,55 +77,54 @@
                     android:id="@+id/btnNotifications"
                     android:layout_width="44dp"
                     android:layout_height="44dp"
-                    android:padding="10dp"
-                    android:scaleType="fitCenter"
-                    android:background="@drawable/rounded_input"
-                    android:backgroundTint="#33FFFFFF"
+                    android:background="@drawable/bg_white_alpha_badge"
                     android:contentDescription="Notifications"
                     android:src="@android:drawable/ic_popup_reminder"
-                    android:tint="@android:color/white" />
+                    android:tint="@android:color/white"
+                    android:padding="10dp" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/tvWelcomeName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:text="Welcome to StaySwift,"
                 android:textColor="#EEFFFFFF"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-medium" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Find your perfect stay"
                 android:textColor="@android:color/white"
-                android:textSize="26sp"
-                android:textStyle="bold" />
+                android:textSize="28sp"
+                android:fontFamily="sans-serif-black" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardSearch"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="28dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
                 app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="24dp"
+                app:cardCornerRadius="20dp"
                 app:cardElevation="12dp"
                 app:strokeWidth="0dp">
 
                 <LinearLayout
-                    android:layout_width="380dp"
-                    android:layout_height="53dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="18dp">
+                    android:paddingHorizontal="20dp">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
                         android:src="@android:drawable/ic_menu_search"
                         app:tint="@color/primaryBlue" />
 
@@ -133,10 +135,11 @@
                         android:layout_marginStart="12dp"
                         android:background="@android:color/transparent"
                         android:hint="Search hotel, location etc"
+                        android:fontFamily="sans-serif-medium"
                         android:imeOptions="actionSearch"
                         android:inputType="text"
                         android:textColor="@color/textPrimary"
-                        android:textColorHint="@color/textSecondary"
+                        android:textColorHint="#94A3B8"
                         android:textSize="15sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -152,109 +155,115 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_marginTop="32dp"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Hotel Near You"
-                    android:textColor="@color/textPrimary"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Hotel Near You"
+                        android:textColor="#1E293B"
+                        android:textSize="19sp"
+                        android:fontFamily="sans-serif-black" />
+
+                    <TextView
+                        android:id="@+id/tvViewAllNearYou"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="View All"
+                        android:textColor="@color/primaryBlue"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-bold" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvNearYou"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:overScrollMode="never"
+                    android:clipToPadding="false" />
 
                 <TextView
-                    android:id="@+id/tvViewAllNearYou"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="Explore by City"
+                    android:textColor="#1E293B"
+                    android:textSize="19sp"
+                    android:fontFamily="sans-serif-black" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvCities"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:overScrollMode="never" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Highest Rated Hotels"
+                        android:textColor="#1E293B"
+                        android:textSize="19sp"
+                        android:fontFamily="sans-serif-black" />
+
+                    <TextView
+                        android:id="@+id/tvViewAllTop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="View All"
+                        android:textColor="@color/primaryBlue"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-bold" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvTopRated"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:overScrollMode="never" />
+
+                <ProgressBar
+                    android:id="@+id/progressHome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="View All"
-                    android:textColor="@color/primaryBlue"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvNearYou"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:overScrollMode="never"
-                android:clipToPadding="false" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:text="Explore by City"
-                android:textColor="@color/textPrimary"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvCities"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:overScrollMode="never" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                    android:layout_gravity="center"
+                    android:layout_marginTop="40dp"
+                    android:indeterminateTint="@color/primaryBlue"
+                    android:visibility="gone" />
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:id="@+id/tvHomeEmpty"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Highest Rated Hotels"
-                    android:textColor="@color/textPrimary"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="40dp"
+                    android:gravity="center"
+                    android:text="No hotels found"
+                    android:textColor="@color/textSecondary"
+                    android:visibility="gone" />
 
-                <TextView
-                    android:id="@+id/tvViewAllTop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="View All"
-                    android:textColor="@color/primaryBlue"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp" />
+
             </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvTopRated"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:overScrollMode="never" />
-
-            <ProgressBar
-                android:id="@+id/progressHome"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="24dp"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/tvHomeEmpty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:gravity="center"
-                android:text="No hotels found"
-                android:textColor="@color/textSecondary"
-                android:visibility="gone" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp" />
-
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

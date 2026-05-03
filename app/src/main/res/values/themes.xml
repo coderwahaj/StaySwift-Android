@@ -22,4 +22,9 @@
         <item name="android:textColor">#475569</item>
         <item name="android:button">@null</item> <item name="android:background">@drawable/bg_amenity_selector</item> <item name="android:drawableEnd">?android:attr/listChoiceIndicatorMultiple</item> <item name="android:buttonTint">#0080FF</item>
     </style>
+    <style name="CustomTabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">sans-serif-bold</item>
+    </style>
 </resources>
